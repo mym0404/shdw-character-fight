@@ -2,6 +2,7 @@ import 'package:local_file_preferences/local_file_preferences.dart';
 import 'package:logger/logger.dart';
 
 import '../../export.dart';
+import '../../game/state/game_state.dart';
 import '../l10n/util/l10n_manager.dart';
 import '../layout/layout_manager.dart';
 
@@ -23,6 +24,8 @@ Future<void> registerSingletons() async {
     ),
   );
   di.registerSingleton(LayoutManager());
+
+  di.registerSingleton(GameManager());
 }
 
 Logger get log => di();

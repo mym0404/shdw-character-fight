@@ -1,4 +1,6 @@
 import 'package:flame/components.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:rxdart/rxdart.dart';
 
 import 'game/main_game.dart';
 
@@ -20,6 +22,7 @@ export 'package:go_router/go_router.dart';
 export 'package:intl/intl.dart' hide TextDirection;
 export 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 export 'package:padding_extra/padding_extra.dart';
+export 'package:rxdart/rxdart.dart' hide Notification;
 export 'package:shared_preferences/shared_preferences.dart';
 export 'package:watch_it/watch_it.dart';
 
@@ -41,6 +44,9 @@ export 'service/l10n/util/l10n_util.dart';
 export 'service/router/route_extension.dart';
 
 typedef VC = void Function();
+typedef VN<T> = ValueNotifier<T>;
+typedef BS<T> = BehaviorSubject<T>;
+typedef TC = TextEditingController;
 typedef Json = Map<String, dynamic>;
 typedef V2 = Vector2;
 typedef GRef = HasGameRef<MainGame>;

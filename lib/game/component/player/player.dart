@@ -1,27 +1,55 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/events.dart';
 import 'package:flame/layout.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../export.dart';
+import '../../state/player_state.dart';
+import '../../util/DisposeBag.dart';
 import '../weapon/player_weapon.dart';
+import 'player_hud.dart';
 
-class Player extends PositionComponent with GRef, CollisionCallbacks {
+class Player extends PositionComponent with GRef, CollisionCallbacks, DisposeBag {
   Player({
-    required this.isMe,
     this.circleSize = Const.initialPlayerSize,
+    required this.state,
   });
 
   double circleSize;
-  bool isMe;
   double maxSpeed = 1000;
   V2 velocity = V2.zero();
+
+  late PlayerHud hud;
+
+  final BS<PlayerState> state;
 
   late final _PlayerBackground bg = _PlayerBackground();
 
   @override
-  FutureOr<void> onLoad() {
-    add(bg..size = V2.all(circleSize));
+  FutureOr<void> onLoad() async {
+    size = V2.all(circleSize);
+
+    await _initBackground();
+    _initHud();
+    _initWeapon();
     add(CircleHitbox());
+  }
+
+  Future<void> _initBackground() async {
+    add(bg..size = size);
+
+    final response = await http.get(Uri.parse(state.value.thumbnail));
+    final image = await decodeImageFromList(response.bodyBytes);
+
+    add(ClipComponent.circle(children: [SpriteComponent.fromImage(image)..size = size])..size = size);
+  }
+
+  void _initHud() {
+    hud = PlayerHud(state: state);
+    add(hud);
+  }
+
+  void _initWeapon() {
     add(AlignComponent(child: PlayerWeapon(), alignment: Anchor.center)..priority = -10);
   }
 

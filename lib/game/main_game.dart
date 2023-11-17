@@ -9,8 +9,10 @@ import 'world/game_world.dart';
 
 class MainGame extends FlameGame with MouseMovementDetector, HasCollisionDetection {
   late CameraComponent cam;
-  final GameState gameState = GameState();
-  final Player me = Player(isMe: true);
+
+  GameManager get gameManager => di<GameManager>();
+  GameState get gameState => gameManager.state.value;
+  late Player me = Player(state: gameManager.me);
 
   GameWorld get gameWorld => world as GameWorld;
 
@@ -21,8 +23,10 @@ class MainGame extends FlameGame with MouseMovementDetector, HasCollisionDetecti
     overlays.add(OverlayId.ready);
   }
 
-  void startGame() {
+  void startGame({required String nickname}) {
     overlays.clear();
+    gameManager.setMeProfile(nickname: nickname);
+    gameManager.startGame();
   }
 
   void _loadWorldAndCam() {
