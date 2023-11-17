@@ -36,10 +36,10 @@ class GameWorld extends World with GRef {
 
     _followCameraToPlayer();
 
-    if (accumulatedTime >= foodSpawnInterval) {
-      _spawnCircleFood();
-      accumulatedTime = 0;
-    }
+    // if (accumulatedTime >= foodSpawnInterval) {
+    //   _spawnCircleFood();
+    //   accumulatedTime = 0;
+    // }
   }
 
   void _followCameraToPlayer() {

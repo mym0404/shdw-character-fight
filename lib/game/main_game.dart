@@ -16,7 +16,6 @@ class MainGame extends FlameGame with MouseMovementDetector, HasCollisionDetecti
 
   @override
   FutureOr<void> onLoad() {
-    debugMode = true;
     _loadWorldAndCam();
 
     overlays.add(OverlayId.ready);

@@ -1,8 +1,11 @@
+import 'package:flame/collisions.dart';
 import 'package:flame/events.dart';
+import 'package:flame/layout.dart';
 
 import '../../../export.dart';
+import '../weapon/player_weapon.dart';
 
-class Player extends PositionComponent with GRef {
+class Player extends PositionComponent with GRef, CollisionCallbacks {
   Player({
     required this.isMe,
     this.circleSize = Const.initialPlayerSize,
@@ -18,6 +21,8 @@ class Player extends PositionComponent with GRef {
   @override
   FutureOr<void> onLoad() {
     add(bg..size = V2.all(circleSize));
+    add(CircleHitbox());
+    add(AlignComponent(child: PlayerWeapon(), alignment: Anchor.center)..priority = -10);
   }
 
   void moveWithMousePosition(PointerHoverInfo info) {
@@ -33,6 +38,7 @@ class Player extends PositionComponent with GRef {
   @override
   void update(double dt) {
     super.update(dt);
+    size = Vector2.all(circleSize);
     _updatePosition(dt);
   }
 
