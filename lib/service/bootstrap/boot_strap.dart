@@ -1,6 +1,5 @@
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import '../../design/color/color_manager.dart';
 import '../../export.dart';
 import '../../feature/common/widget/app_scroll_behavior.dart';
 import '../l10n/util/l10n_manager.dart';
@@ -28,7 +27,6 @@ class BootStrapApp extends StatelessWidget with WatchItMixin {
 
   @override
   Widget build(BuildContext context) {
-    var isDarkMode = watchPropertyValue((ColorManager settings) => settings.isDarkMode);
     var locale = watchPropertyValue((L10NManager settings) => settings.locale);
 
     return MaterialApp.router(
@@ -41,9 +39,9 @@ class BootStrapApp extends StatelessWidget with WatchItMixin {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales,
-      theme: AppTheme.instance.createTheme(Brightness.light),
+      theme: AppTheme.instance.createTheme(Brightness.dark),
       darkTheme: AppTheme.instance.createTheme(Brightness.dark),
-      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      themeMode: ThemeMode.dark,
       scrollBehavior: const AppScrollBehavior(),
     );
   }

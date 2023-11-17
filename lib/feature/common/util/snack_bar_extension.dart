@@ -24,14 +24,13 @@ extension SnackBarExtension on BuildContext {
               if (body != null)
                 PaddingTop(
                   8,
-                  child:
-                      Text(body, style: TS.labelMedium.medium.c(c.onSurface70)),
+                  child: Text(body, style: TS.labelMedium.medium.c(C.onSurface70)),
                 ),
             ],
           ),
           showCloseIcon: true,
           closeIconColor: c.onSurface,
-          backgroundColor: backgroundColor ?? c.surface70,
+          backgroundColor: backgroundColor ?? C.surface70,
           duration: const Duration(milliseconds: 3000),
         ),
       );

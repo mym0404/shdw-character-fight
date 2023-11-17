@@ -1,38 +1,51 @@
-part of 'color_manager.dart';
+import '../../export.dart';
 
-const _appColorSchemeLight = ColorScheme(
-  brightness: Brightness.light,
-  primary: Color(0xFF2A5EA7),
-  onPrimary: Color(0xFFFFFFFF),
-  primaryContainer: Color(0xFFD6E3FF),
-  onPrimaryContainer: Color(0xFF001B3E),
-  secondary: Color(0xFF565F71),
-  onSecondary: Color(0xFFFFFFFF),
-  secondaryContainer: Color(0xFFDAE2F9),
-  onSecondaryContainer: Color(0xFF131C2B),
-  tertiary: Color(0xFF2C5AB5),
-  onTertiary: Color(0xFFFFFFFF),
-  tertiaryContainer: Color(0xFFD9E2FF),
-  onTertiaryContainer: Color(0xFF001945),
-  error: Color(0xFFBA1A1A),
-  errorContainer: Color(0xFFFFDAD6),
-  onError: Color(0xFFFFFFFF),
-  onErrorContainer: Color(0xFF410002),
-  inversePrimary: Color(0xFFAAC7FF),
-  shadow: Color(0xFF000000),
-  surfaceTint: Color(0xFF2A5EA7),
-  outline: Color(0xFF74777F),
-  background: Color(0xFFFFFFFF),
-  onBackground: Color(0xFF222222),
-  surface: Color(0xFFFFFFFF),
-  onSurface: Color(0xFF222222),
-  surfaceVariant: Color(0xFFF2F2F2),
-  onSurfaceVariant: Color(0xFF222222),
-  inverseSurface: Color(0xFF2F3033),
-  onInverseSurface: Color(0xFFF1F0F4),
-);
+abstract interface class C {
+  static const primary = Color(0xFFAAC7FF);
+  static const onPrimary = Color(0xFF002F64);
+  static const primaryContainer = Color(0xFF00458D);
+  static const onPrimaryContainer = Color(0xFFD6E3FF);
+  static const secondary = Color(0xFFBEC6DC);
+  static const onSecondary = Color(0xFF283141);
+  static const secondaryContainer = Color(0xFF3E4759);
+  static const onSecondaryContainer = Color(0xFFDAE2F9);
+  static const tertiary = Color(0xFFB0C6FF);
+  static const onTertiary = Color(0xFF002C6F);
+  static const tertiaryContainer = Color(0xFF01419C);
+  static const onTertiaryContainer = Color(0xFFD9E2FF);
+  static const error = Color(0xFFFFB4AB);
+  static const errorContainer = Color(0xFF93000A);
+  static const onError = Color(0xFF690005);
+  static const onErrorContainer = Color(0xFFFFDAD6);
+  static const bg = Color(0xFF1A1A1A);
+  static const onBg = Color(0xFFE3E3E3);
+  static const surface = Color(0xFF1A1A1A);
+  static const onSurface = Color(0xFFF3F3F3);
+  static const surfaceVariant = Color(0xFF44474E);
+  static const onSurfaceVariant = Color(0xFFC4C6D0);
+  static const outline = Color(0xFF8E9099);
+  static const onInverseSurface = Color(0xFF1A1A1A);
+  static const inverseSurface = Color(0xFFE3E3E3);
+  static const inversePrimary = Color(0xFF2A5EA7);
+  static const shadow = Color(0xFF000000);
+  static const surfaceTint = Color(0xFFAAC7FF);
 
-const _appColorSchemeDark = ColorScheme(
+  static Color get surface30 => surface.withOpacity(0.3);
+  static Color get surface50 => surface.withOpacity(0.5);
+  static Color get surface70 => surface.withOpacity(0.7);
+  static Color get onSurface30 => onSurface.withOpacity(0.3);
+  static Color get onSurface50 => onSurface.withOpacity(0.5);
+  static Color get onSurface70 => onSurface.withOpacity(0.7);
+  static Color get primary30 => primary.withOpacity(0.3);
+  static Color get primary50 => primary.withOpacity(0.5);
+  static Color get primary70 => primary.withOpacity(0.7);
+
+  static const white = Colors.white;
+  static const black = Colors.black;
+  static const transparent = Colors.transparent;
+}
+
+const appColorScheme = ColorScheme(
   brightness: Brightness.dark,
   primary: Color(0xFFAAC7FF),
   onPrimary: Color(0xFF002F64),
