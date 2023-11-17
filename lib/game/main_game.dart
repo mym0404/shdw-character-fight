@@ -4,6 +4,7 @@ import 'package:flame/game.dart';
 import '../export.dart';
 import 'component/player/player.dart';
 import 'overlay/overlay_id.dart';
+import 'state/game_manager.dart';
 import 'state/game_state.dart';
 import 'world/game_world.dart';
 

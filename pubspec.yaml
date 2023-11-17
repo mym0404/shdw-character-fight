@@ -53,6 +53,8 @@ dependencies:
   extra_alignments: ^1.0.0+1
   flame: ^1.10.1
   http: ^1.1.0
+  supabase_flutter: ^1.10.25
+  uuid: ^4.2.1
 
 dev_dependencies:
   flutter_test:

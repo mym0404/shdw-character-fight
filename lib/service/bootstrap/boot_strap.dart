@@ -1,4 +1,5 @@
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../export.dart';
 import '../../feature/common/widget/app_scroll_behavior.dart';
@@ -6,9 +7,19 @@ import '../l10n/util/l10n_manager.dart';
 import '../router/app_router.dart';
 
 Future<void> bootStrap() async {
+  await _initSupabase();
   await registerSingletons();
   _registerErrorHandler();
   runApp(const BootStrapApp());
+}
+
+Future<void> _initSupabase() async {
+  await Supabase.initialize(
+    url: 'https://klmyvmaoisfzvfozgvfu.supabase.co',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtsbXl2bWFvaXNmenZmb3pndmZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDAyMTg2NTMsImV4cCI6MjAxNTc5NDY1M30.eIGLRQZ_zLD5Pkfr9lSglSR07Iy9MgzAEPlOb8K4FmU',
+    realtimeClientOptions: const RealtimeClientOptions(eventsPerSecond: 40),
+  );
 }
 
 void _registerErrorHandler() {

@@ -1,31 +1,30 @@
 import '../../../export.dart';
-import '../../state/player_state.dart';
-import '../../util/DisposeBag.dart';
 import 'player.dart';
 
-class PlayerHud extends PositionComponent with ParentIsA<Player>, DisposeBag {
-  PlayerHud({required this.state});
-  late TextComponent nickname;
-  BS<PlayerState> state;
+class PlayerHud extends PositionComponent with ParentIsA<Player> {
+  PlayerHud({
+    this.nickname = '',
+  });
+  late TextComponent nicknameText;
+
+  String nickname;
 
   @override
   FutureOr<void> onLoad() {
-    nickname = TextComponent(
-      text: state.value.nickname,
+    nicknameText = TextComponent(
+      text: nickname,
       textRenderer: TextPaint(
         style: TS.b2.c(C.onSurface),
       ),
     );
 
-    listenStream(state, (v) {
-      nickname.text = v.nickname;
-    });
-
-    add(nickname..position = V2(0, parent.circleSize));
+    add(nicknameText..position = V2(0, parent.circleSize));
   }
 
   @override
   void update(double dt) {
     super.update(dt);
+
+    nicknameText.text = nickname;
   }
 }
