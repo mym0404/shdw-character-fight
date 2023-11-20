@@ -5,13 +5,15 @@ import '../../../export.dart';
 abstract class Jewel {
   int get hp;
   int get exp;
-  double size = 24;
+  String get name;
+  int get level;
+  double size = 48;
 
   PositionComponent renderComponent() {
-    return CircleComponent(radius: size, paint: Paint()..color = Colors.blueGrey);
+    return CircleComponent(radius: size / 2, paint: Paint()..color = Colors.blueGrey);
   }
 
   ShapeHitbox renderHitBox() {
-    return CircleHitbox(radius: size)..collisionType = CollisionType.passive;
+    return CircleHitbox(radius: size / 2)..collisionType = CollisionType.passive;
   }
 }

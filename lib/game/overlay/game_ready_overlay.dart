@@ -18,6 +18,17 @@ class _GameReadyOverlayState extends State<GameReadyOverlay> {
   late final nickname = TC(text: '문명주');
 
   @override
+  void initState() {
+    super.initState();
+
+    if(kDebugMode) {
+      500.ms.runAfter(() {
+        widget.game.startGame(nickname: nickname.text);
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BackdropBlur(
       colorOpacity: 0.1,

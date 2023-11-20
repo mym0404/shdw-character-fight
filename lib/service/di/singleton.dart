@@ -16,9 +16,7 @@ Future<void> registerSingletons() async {
   di.registerSingleton(
     Logger(
       printer: PrefixPrinter(
-        PrettyPrinter(
-          colors: false,
-        ),
+        PrettyPrinter(colors: false, methodCount: 0, errorMethodCount: 20),
         error: '⛔',
         info: '💡',
         debug: '🌙',

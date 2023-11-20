@@ -9,12 +9,13 @@ import 'player_readonly.dart';
 class Player extends PositionComponent with GRef, DisposeBag {
   Player({super.key});
 
-  double maxSpeed = 100;
+  double maxSpeed = 250;
   V2 velocity = V2.zero();
 
   final PlayerReadonly innerPlayer = PlayerReadonly(isMe: true);
 
   double accDelta = 0;
+  V2 lastMovementPosition = V2.zero();
 
   @override
   FutureOr<void> onLoad() async {
@@ -34,24 +35,29 @@ class Player extends PositionComponent with GRef, DisposeBag {
 
   void moveWithMousePosition(PointerHoverInfo info) {
     var worldPosition = game.cam.globalToLocal(info.eventPosition.widget);
-    var radians = V2(1, 0).angleToSigned(worldPosition - position);
-
-    var speed = worldPosition.distanceTo(position).clamp(0, maxSpeed);
-
-    velocity.x = cos(radians) * speed;
-    velocity.y = sin(radians) * speed;
+    lastMovementPosition = worldPosition;
   }
 
   @override
   void update(double dt) {
     super.update(dt);
     accDelta += dt;
+    _calculateVelocity();
     _updatePosition(dt);
 
+    // send position information to channel
     if (accDelta >= (kDebugMode ? 5.0 : 0.1)) {
       channelManager.sendPosition(x, y);
       accDelta = 0;
     }
+  }
+
+  void _calculateVelocity() {
+    var radians = V2(1, 0).angleToSigned(lastMovementPosition - position);
+    var speed = lastMovementPosition.distanceTo(position).clamp(0, maxSpeed);
+
+    velocity.x = cos(radians) * speed;
+    velocity.y = sin(radians) * speed;
   }
 
   void _updatePosition(double dt) {
@@ -63,8 +69,6 @@ class Player extends PositionComponent with GRef, DisposeBag {
   }
 
   void onCollision(PositionComponent other) {
-    if (other is JewelComponent) {
-      log.i(other);
-    }
+    if (other is JewelComponent) {}
   }
 }

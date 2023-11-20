@@ -1,4 +1,5 @@
 import '../../../export.dart';
+import '../hud/hp_status_hud.dart';
 import 'player_readonly.dart';
 
 class PlayerHud extends PositionComponent with ParentIsA<PlayerReadonly> {
@@ -29,7 +30,7 @@ class PlayerHud extends PositionComponent with ParentIsA<PlayerReadonly> {
   }
 
   void _initHpStatus() {
-    hpStatus = HpStatusHud();
+    hpStatus = HpStatusHud(maxHp: 100, currentHp: 100);
     hpStatus.position = V2(parent.width / 2, -10);
     hpStatus.anchor = Anchor.center;
     add(hpStatus);
@@ -40,36 +41,5 @@ class PlayerHud extends PositionComponent with ParentIsA<PlayerReadonly> {
     super.update(dt);
 
     nicknameText.text = nickname;
-  }
-}
-
-class HpStatusHud extends CustomPainterComponent {
-  @override
-  FutureOr<void> onLoad() {
-    painter = _HpStatusPainter();
-    width = 64;
-    height = 6;
-  }
-}
-
-class _HpStatusPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    var w = size.width, h = size.height;
-
-    var borderPaint = Paint()..color = C.white;
-
-    var gradient = const LinearGradient(
-            colors: [Colors.greenAccent, Colors.green], begin: Alignment.topLeft, end: Alignment.bottomRight)
-        .createShader(Offset.zero & size);
-    var hpPaint = Paint()..shader = gradient;
-
-    canvas.drawRRect(RRect.fromLTRBR(0, 0, w, h, 2.radius), borderPaint);
-    canvas.drawRRect(RRect.fromLTRBR(1, 1, w - 1, h - 1, 2.radius), hpPaint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
   }
 }

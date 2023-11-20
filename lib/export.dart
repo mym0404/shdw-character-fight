@@ -38,6 +38,7 @@ export 'feature/common/util/snack_bar_extension.dart';
 export 'feature/common/util/style_extension.dart';
 export 'game/util/const.dart';
 export 'game/util/duration_util.dart';
+export 'game/util/flame_extension.dart';
 export 'service/di/singleton.dart';
 export 'service/l10n/generated/l10n.dart';
 export 'service/l10n/util/l10n_util.dart';

@@ -6,4 +6,10 @@ class JewelStone extends Jewel {
 
   @override
   int get hp => 10;
+
+  @override
+  int get level => 1;
+
+  @override
+  String get name => '돌맹이';
 }
