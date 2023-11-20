@@ -69,13 +69,16 @@ class GameWorld extends World with GRef, DisposeBag {
 
   void addMyPlayer() {
     myPlayer = Player(key: ComponentKey.named('player'))
+      ..anchor = Anchor.center
       ..x = 100
       ..y = 100;
     add(myPlayer!);
   }
 
   void _addOtherPlayer(PlayerState state) {
-    var player = PlayerReadonly()..updateWithPlayerState(state);
+    var player = PlayerReadonly()
+      ..anchor = Anchor.center
+      ..updateWithPlayerState(state);
     otherPlayers[state.id] = player;
     add(player);
   }

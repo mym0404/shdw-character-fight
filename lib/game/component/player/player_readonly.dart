@@ -1,4 +1,3 @@
-import 'package:flame/effects.dart';
 import 'package:flame/layout.dart';
 import 'package:flame_network_assets/flame_network_assets.dart';
 
@@ -77,7 +76,9 @@ class PlayerReadonly extends PositionComponent {
       children: [
         SpriteComponent.fromImage(playerSprite)..size = size,
       ],
-    )..size = size;
+    )
+      ..size = size
+      ..priority = -1;
 
     add(this.thumbnail!);
   }
@@ -90,7 +91,9 @@ class _PlayerBackground extends CustomPainterComponent {
   Color borderColor;
 
   @override
-  CustomPainter? get painter => _Painter(borderColor: borderColor);
+  FutureOr<void> onLoad() {
+    painter = _Painter(borderColor: borderColor);
+  }
 }
 
 class _Painter extends CustomPainter {
@@ -103,9 +106,16 @@ class _Painter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     double w = size.width, h = size.height;
 
-    var paint = Paint()..color = Colors.white;
+    var strokePaint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.stroke;
+    var blurPaint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill
+      ..maskFilter = const MaskFilter.blur(BlurStyle.outer, 12);
 
-    canvas.drawCircle(Offset(w / 2, h / 2), min(w / 2, h / 2), paint);
+    canvas.drawCircle(Offset(w / 2, h / 2), min(w / 2, h / 2), strokePaint);
+    canvas.drawCircle(Offset(w / 2, h / 2), min(w / 2, h / 2), blurPaint);
   }
 
   @override

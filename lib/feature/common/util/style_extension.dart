@@ -1,7 +1,8 @@
 import '../../../export.dart';
 
 extension BorderRadiusExtension on num {
-  BorderRadius get radius => BorderRadius.circular(toDouble());
+  Radius get radius => Radius.circular(toDouble());
+  BorderRadius get bRadius => BorderRadius.circular(toDouble());
 }
 
 extension BorderR2Extension on (Color, num) {

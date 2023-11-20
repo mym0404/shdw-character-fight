@@ -35,7 +35,7 @@ class _GameReadyOverlayState extends State<GameReadyOverlay> {
                 const Text('캐릭터를 생성해주세요!'),
                 const Gap(12),
                 ClipRRect(
-                  borderRadius: 999.radius,
+                  borderRadius: 999.bRadius,
                   child: CachedNetworkImage(
                       imageUrl: 'https://iili.io/JCm0irv.png', width: 120, height: 120, fit: BoxFit.cover),
                 ),

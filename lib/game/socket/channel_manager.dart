@@ -1,3 +1,5 @@
+import 'dart:html' as html;
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../export.dart';
@@ -28,8 +30,12 @@ class ChannelManager {
   PublishSubject<PlayerPosition> onPlayerPositionChanged = PublishSubject();
 
   Future<void> _init() async {
-    await supabase.removeAllChannels();
+    if (kDebugMode) return;
     _subscribeEvents();
+
+    html.window.addEventListener('beforeunload', (e) async {
+      await supabase.removeAllChannels();
+    });
   }
 
   void _subscribeEvents() {

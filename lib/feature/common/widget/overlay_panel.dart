@@ -13,7 +13,7 @@ class OverlayPanel extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        borderRadius: 12.radius,
+        borderRadius: 12.bRadius,
         border: Border.all(color: C.onSurface),
         boxShadow: [
           const BoxShadow(color: Colors.white38, blurRadius: 20),

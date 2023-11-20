@@ -5,7 +5,7 @@ import '../../../export.dart';
 import '../../util/DisposeBag.dart';
 import 'player_readonly.dart';
 
-class Player extends PositionComponent with GRef, CollisionCallbacks, DisposeBag {
+class Player extends PositionComponent with GRef, DisposeBag {
   Player({super.key});
 
   double maxSpeed = 100;
@@ -17,7 +17,6 @@ class Player extends PositionComponent with GRef, CollisionCallbacks, DisposeBag
 
   @override
   FutureOr<void> onLoad() async {
-    debugMode = true;
     size = V2.all(Const.playerSize);
 
     add(CircleHitbox());
@@ -48,7 +47,7 @@ class Player extends PositionComponent with GRef, CollisionCallbacks, DisposeBag
     accDelta += dt;
     _updatePosition(dt);
 
-    if (accDelta >= 5) {
+    if (accDelta >= (kDebugMode ? 5.0 : 0.1)) {
       channelManager.sendPosition(x, y);
       accDelta = 0;
     }
@@ -58,9 +57,7 @@ class Player extends PositionComponent with GRef, CollisionCallbacks, DisposeBag
     position += velocity * dt;
 
     // Clamp with boundary
-    position.x =
-        position.x.clamp(Const.worldPadding, Const.worldWidth - Const.worldPadding - Const.playerSize);
-    position.y =
-        position.y.clamp(Const.worldPadding, Const.worldHeight - Const.worldPadding - Const.playerSize);
+    position.x = position.x.clamp(Const.worldPadding, Const.worldWidth - Const.worldPadding);
+    position.y = position.y.clamp(Const.worldPadding, Const.worldHeight - Const.worldPadding);
   }
 }
