@@ -1,3 +1,5 @@
+import 'package:uuid/uuid.dart';
+
 import '../../export.dart';
 import 'game_channel_state.dart';
 import 'game_state.dart';
@@ -5,7 +7,7 @@ import 'player_state.dart';
 
 class GameManager {
   BS<GameState> state = BS.seeded(const GameState());
-  BS<PlayerState> me = BS.seeded(const PlayerState(isMe: true, isActive: false));
+  BS<PlayerState> me = BS.seeded(PlayerState(id: const Uuid().v4()));
   GameChannelState channel = GameChannelState();
   // BS<List<PlayerState>> others = channel;
 

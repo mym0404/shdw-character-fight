@@ -1,4 +1,4 @@
-import '../../export.dart';
+import '../../export.dart' show Component, Stream, StreamSubscription;
 
 mixin DisposeBag on Component {
   final List<StreamSubscription<dynamic>> _subscriptions = [];

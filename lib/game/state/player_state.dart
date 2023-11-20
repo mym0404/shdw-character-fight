@@ -7,10 +7,12 @@ part 'player_state.g.dart';
 class PlayerState with _$PlayerState {
   const PlayerState._();
   const factory PlayerState({
-    required bool isMe,
-    required bool isActive,
+    required String id,
     @Default('') String nickname,
     @Default('https://iili.io/JCm0irv.png') String thumbnail,
+    // @Default(0) int exp,
+    // @Default(0.0) double x,
+    // @Default(0.0) double y,
   }) = _PlayerState;
 
   factory PlayerState.fromJson(Map<String, dynamic> json) => _$PlayerStateFromJson(json);

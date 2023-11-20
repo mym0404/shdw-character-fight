@@ -53,7 +53,7 @@ class BootStrapApp extends StatelessWidget with WatchItMixin {
       theme: AppTheme.instance.createTheme(Brightness.dark),
       darkTheme: AppTheme.instance.createTheme(Brightness.dark),
       themeMode: ThemeMode.dark,
-      scrollBehavior: const AppScrollBehavior(),
+      // scrollBehavior: const AppScrollBehavior(),
     );
   }
 }

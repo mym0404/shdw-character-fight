@@ -249,6 +249,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  dev:
+    dependency: transitive
+    description:
+      name: dev
+      sha256: e7e806af20d53e293a7878212d2246d3e9fccd2b49d597600f9898ed83501cb4
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   extra_alignments:
     dependency: "direct main"
     description:
@@ -297,6 +305,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.1"
+  flame_network_assets:
+    dependency: "direct main"
+    description:
+      name: flame_network_assets
+      sha256: "9ed33084a08652e030c734334a584ddfeb0cb32ded106645591e9c6c4f07a084"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0+8"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -413,6 +429,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  gestures:
+    dependency: transitive
+    description:
+      name: gestures
+      sha256: "6e75e4ba1ad033a8be9a682974dfe6a2be96ab07b4aa8335ed37bbecb75b7770"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   get_it:
     dependency: "direct main"
     description:
@@ -481,10 +505,10 @@ packages:
     dependency: "direct main"
     description:
       name: http
-      sha256: "759d1a329847dd0f39226c688d3e06a6b8679668e350e2891a6474f8b4bb8525"
+      sha256: "5895291c13fa8a3bd82e76d5627f69e0d85ca6a30dcac95c4ea19a5d555879c2"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "0.13.6"
   http_multi_server:
     dependency: transitive
     description:

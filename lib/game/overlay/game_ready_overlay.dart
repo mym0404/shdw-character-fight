@@ -15,7 +15,7 @@ class GameReadyOverlay extends StatefulWidget {
 }
 
 class _GameReadyOverlayState extends State<GameReadyOverlay> {
-  late final nickname = TC();
+  late final nickname = TC(text: '문명주');
 
   @override
   Widget build(BuildContext context) {
@@ -23,41 +23,43 @@ class _GameReadyOverlayState extends State<GameReadyOverlay> {
       colorOpacity: 0.1,
       child: Center(
         child: OverlayPanel(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                '수학대왕 캐릭터 키우기',
-                style: TS.titleLarge,
-              ),
-              const Gap(24),
-              const Text('캐릭터를 생성해주세요!'),
-              const Gap(12),
-              ClipRRect(
-                borderRadius: 999.radius,
-                child: CachedNetworkImage(
-                    imageUrl: 'https://iili.io/JCm0irv.png', width: 120, height: 120, fit: BoxFit.cover),
-              ),
-              const Gap(12),
-              TextButton.icon(onPressed: null, icon: Icon(MdiIcons.refresh), label: const Text('다시 생성하기')),
-              const Gap(24),
-              const Text('닉네임을 입력해주세요!'),
-              SizedBox(
-                width: 240,
-                child: TextField(
-                  controller: nickname,
-                  decoration: const InputDecoration(hintText: '강해린'),
-                  textAlign: TextAlign.center,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  '수학대왕 캐릭터 키우기',
+                  style: TS.titleLarge,
                 ),
-              ),
-              const Gap(48),
-              FilledButton.tonal(
-                onPressed: () {
-                  widget.game.startGame(nickname: nickname.text);
-                },
-                child: const Text('시작하기'),
-              )
-            ],
+                const Gap(24),
+                const Text('캐릭터를 생성해주세요!'),
+                const Gap(12),
+                ClipRRect(
+                  borderRadius: 999.radius,
+                  child: CachedNetworkImage(
+                      imageUrl: 'https://iili.io/JCm0irv.png', width: 120, height: 120, fit: BoxFit.cover),
+                ),
+                const Gap(12),
+                TextButton.icon(onPressed: null, icon: Icon(MdiIcons.refresh), label: const Text('다시 생성하기')),
+                const Gap(24),
+                const Text('닉네임을 입력해주세요!'),
+                SizedBox(
+                  width: 240,
+                  child: TextField(
+                    controller: nickname,
+                    decoration: const InputDecoration(hintText: '강해린'),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const Gap(48),
+                FilledButton.tonal(
+                  onPressed: () {
+                    widget.game.startGame(nickname: nickname.text);
+                  },
+                  child: const Text('시작하기'),
+                )
+              ],
+            ),
           ),
         ),
       ),

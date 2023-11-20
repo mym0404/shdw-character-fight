@@ -2,7 +2,6 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 
 import '../export.dart';
-import 'component/player/player.dart';
 import 'overlay/overlay_id.dart';
 import 'state/game_manager.dart';
 import 'state/game_state.dart';
@@ -13,7 +12,6 @@ class MainGame extends FlameGame with MouseMovementDetector, HasCollisionDetecti
 
   GameManager get gameManager => di<GameManager>();
   GameState get gameState => gameManager.state.value;
-  late Player me = Player(state: gameManager.me);
 
   GameWorld get gameWorld => world as GameWorld;
 
@@ -24,15 +22,17 @@ class MainGame extends FlameGame with MouseMovementDetector, HasCollisionDetecti
     overlays.add(OverlayId.ready);
   }
 
-  void startGame({required String nickname}) {
+  Future<void> startGame({required String nickname}) async {
     overlays.clear();
     gameManager.setMeProfile(nickname: nickname);
+    await channelManager.trackMe(gameManager.me.value);
+    gameWorld.addMyPlayer();
     gameManager.startGame();
   }
 
   void _loadWorldAndCam() {
     cam = CameraComponent()..viewfinder.anchor = Anchor.topLeft;
-    world = GameWorld(me: me);
+    world = GameWorld();
     cam.world = world;
     addAll([world, cam]);
   }

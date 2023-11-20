@@ -1,7 +1,7 @@
 import '../../../export.dart';
-import 'player.dart';
+import 'player_readonly.dart';
 
-class PlayerHud extends PositionComponent with ParentIsA<Player> {
+class PlayerHud extends PositionComponent with ParentIsA<PlayerReadonly> {
   PlayerHud({
     this.nickname = '',
   });
@@ -18,7 +18,7 @@ class PlayerHud extends PositionComponent with ParentIsA<Player> {
       ),
     );
 
-    add(nicknameText..position = V2(0, parent.circleSize));
+    add(nicknameText..position = V2(0, parent.size.y));
   }
 
   @override

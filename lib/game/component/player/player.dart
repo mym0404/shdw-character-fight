@@ -2,29 +2,34 @@ import 'package:flame/collisions.dart';
 import 'package:flame/events.dart';
 
 import '../../../export.dart';
-import '../../state/player_state.dart';
 import '../../util/DisposeBag.dart';
-import 'player_hud.dart';
+import 'player_readonly.dart';
 
 class Player extends PositionComponent with GRef, CollisionCallbacks, DisposeBag {
-  Player({
-    this.circleSize = Const.initialPlayerSize,
-    required this.state,
-  });
+  Player({super.key});
 
-  double circleSize;
-  double maxSpeed = 1000;
+  double maxSpeed = 100;
   V2 velocity = V2.zero();
 
-  late PlayerHud hud;
+  final PlayerReadonly innerPlayer = PlayerReadonly();
 
-  final BS<PlayerState> state;
+  double accDelta = 0;
 
   @override
   FutureOr<void> onLoad() async {
-    size = V2.all(circleSize);
+    debugMode = true;
+    size = V2.all(Const.playerSize);
 
     add(CircleHitbox());
+    _initPlayer();
+  }
+
+  void _initPlayer() {
+    add(innerPlayer);
+
+    listenStream(manager.me, (v) {
+      innerPlayer.updateWithPlayerState(v);
+    });
   }
 
   void moveWithMousePosition(PointerHoverInfo info) {
@@ -40,15 +45,22 @@ class Player extends PositionComponent with GRef, CollisionCallbacks, DisposeBag
   @override
   void update(double dt) {
     super.update(dt);
-    size = Vector2.all(circleSize);
+    accDelta += dt;
     _updatePosition(dt);
+
+    if (accDelta >= 5) {
+      channelManager.sendPosition(x, y);
+      accDelta = 0;
+    }
   }
 
   void _updatePosition(double dt) {
     position += velocity * dt;
 
     // Clamp with boundary
-    position.x = position.x.clamp(Const.worldPadding, Const.worldWidth - Const.worldPadding - circleSize);
-    position.y = position.y.clamp(Const.worldPadding, Const.worldHeight - Const.worldPadding - circleSize);
+    position.x =
+        position.x.clamp(Const.worldPadding, Const.worldWidth - Const.worldPadding - Const.playerSize);
+    position.y =
+        position.y.clamp(Const.worldPadding, Const.worldHeight - Const.worldPadding - Const.playerSize);
   }
 }

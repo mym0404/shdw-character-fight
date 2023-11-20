@@ -52,9 +52,10 @@ dependencies:
   cached_network_image: ^3.3.0
   extra_alignments: ^1.0.0+1
   flame: ^1.10.1
-  http: ^1.1.0
+  http: ^0.13.6
   supabase_flutter: ^1.10.25
   uuid: ^4.2.1
+  flame_network_assets: ^0.2.0+8
 
 dev_dependencies:
   flutter_test:

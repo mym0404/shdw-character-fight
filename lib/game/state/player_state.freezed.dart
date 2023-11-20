@@ -20,8 +20,7 @@ PlayerState _$PlayerStateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PlayerState {
-  bool get isMe => throw _privateConstructorUsedError;
-  bool get isActive => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   String get nickname => throw _privateConstructorUsedError;
   String get thumbnail => throw _privateConstructorUsedError;
 
@@ -37,7 +36,7 @@ abstract class $PlayerStateCopyWith<$Res> {
           PlayerState value, $Res Function(PlayerState) then) =
       _$PlayerStateCopyWithImpl<$Res, PlayerState>;
   @useResult
-  $Res call({bool isMe, bool isActive, String nickname, String thumbnail});
+  $Res call({String id, String nickname, String thumbnail});
 }
 
 /// @nodoc
@@ -53,20 +52,15 @@ class _$PlayerStateCopyWithImpl<$Res, $Val extends PlayerState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isMe = null,
-    Object? isActive = null,
+    Object? id = null,
     Object? nickname = null,
     Object? thumbnail = null,
   }) {
     return _then(_value.copyWith(
-      isMe: null == isMe
-          ? _value.isMe
-          : isMe // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isActive: null == isActive
-          ? _value.isActive
-          : isActive // ignore: cast_nullable_to_non_nullable
-              as bool,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       nickname: null == nickname
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
@@ -87,7 +81,7 @@ abstract class _$$PlayerStateImplCopyWith<$Res>
       __$$PlayerStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isMe, bool isActive, String nickname, String thumbnail});
+  $Res call({String id, String nickname, String thumbnail});
 }
 
 /// @nodoc
@@ -101,20 +95,15 @@ class __$$PlayerStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isMe = null,
-    Object? isActive = null,
+    Object? id = null,
     Object? nickname = null,
     Object? thumbnail = null,
   }) {
     return _then(_$PlayerStateImpl(
-      isMe: null == isMe
-          ? _value.isMe
-          : isMe // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isActive: null == isActive
-          ? _value.isActive
-          : isActive // ignore: cast_nullable_to_non_nullable
-              as bool,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       nickname: null == nickname
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
@@ -131,8 +120,7 @@ class __$$PlayerStateImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PlayerStateImpl extends _PlayerState with DiagnosticableTreeMixin {
   const _$PlayerStateImpl(
-      {required this.isMe,
-      required this.isActive,
+      {required this.id,
       this.nickname = '',
       this.thumbnail = 'https://iili.io/JCm0irv.png'})
       : super._();
@@ -141,9 +129,7 @@ class _$PlayerStateImpl extends _PlayerState with DiagnosticableTreeMixin {
       _$$PlayerStateImplFromJson(json);
 
   @override
-  final bool isMe;
-  @override
-  final bool isActive;
+  final String id;
   @override
   @JsonKey()
   final String nickname;
@@ -153,7 +139,7 @@ class _$PlayerStateImpl extends _PlayerState with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PlayerState(isMe: $isMe, isActive: $isActive, nickname: $nickname, thumbnail: $thumbnail)';
+    return 'PlayerState(id: $id, nickname: $nickname, thumbnail: $thumbnail)';
   }
 
   @override
@@ -161,8 +147,7 @@ class _$PlayerStateImpl extends _PlayerState with DiagnosticableTreeMixin {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'PlayerState'))
-      ..add(DiagnosticsProperty('isMe', isMe))
-      ..add(DiagnosticsProperty('isActive', isActive))
+      ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('nickname', nickname))
       ..add(DiagnosticsProperty('thumbnail', thumbnail));
   }
@@ -172,9 +157,7 @@ class _$PlayerStateImpl extends _PlayerState with DiagnosticableTreeMixin {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PlayerStateImpl &&
-            (identical(other.isMe, isMe) || other.isMe == isMe) &&
-            (identical(other.isActive, isActive) ||
-                other.isActive == isActive) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.nickname, nickname) ||
                 other.nickname == nickname) &&
             (identical(other.thumbnail, thumbnail) ||
@@ -183,8 +166,7 @@ class _$PlayerStateImpl extends _PlayerState with DiagnosticableTreeMixin {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isMe, isActive, nickname, thumbnail);
+  int get hashCode => Object.hash(runtimeType, id, nickname, thumbnail);
 
   @JsonKey(ignore: true)
   @override
@@ -202,8 +184,7 @@ class _$PlayerStateImpl extends _PlayerState with DiagnosticableTreeMixin {
 
 abstract class _PlayerState extends PlayerState {
   const factory _PlayerState(
-      {required final bool isMe,
-      required final bool isActive,
+      {required final String id,
       final String nickname,
       final String thumbnail}) = _$PlayerStateImpl;
   const _PlayerState._() : super._();
@@ -212,9 +193,7 @@ abstract class _PlayerState extends PlayerState {
       _$PlayerStateImpl.fromJson;
 
   @override
-  bool get isMe;
-  @override
-  bool get isActive;
+  String get id;
   @override
   String get nickname;
   @override

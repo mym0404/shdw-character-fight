@@ -1,11 +1,11 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../export.dart';
+import '../schema/player_position.dart';
 import '../state/player_state.dart';
 
 enum GameEvent {
-  playerState,
+  playerPosition,
 }
 
 enum ChannelState {
@@ -15,42 +15,37 @@ enum ChannelState {
 }
 
 class ChannelManager {
-  final userId = const Uuid().v4();
-  final RealtimeChannel _channel =
+  ChannelManager() {
+    _init();
+  }
+
+  late final RealtimeChannel _channel =
       supabase.channel('game', opts: const RealtimeChannelConfig(ack: true, self: true));
   ChannelState _channelState = ChannelState.closed;
 
-  ChannelManager() {
+  bool get _isSubscribed => _channelState == ChannelState.subscribed;
+
+  PublishSubject<PlayerPosition> onPlayerPositionChanged = PublishSubject();
+
+  Future<void> _init() async {
+    await supabase.removeAllChannels();
     _subscribeEvents();
-    _subscribeChannel();
   }
 
   void _subscribeEvents() {
     // Sync Player States
     _channel.on(RealtimeListenTypes.presence, ChannelFilter(event: 'sync'), (payload, [ref]) {
-      final presenceState = _channel.presenceState();
-
-      List<PlayerState> players = presenceState.values
-          .map((presences) => (presences.first as Presence).payload['player'])
-          .map((rawJson) => PlayerState.fromJson(rawJson))
-          .toList();
-
-      manager.channel.players = players;
-    });
-
-    _channel.on(RealtimeListenTypes.broadcast, ChannelFilter(event: GameEvent.playerState.name), (payload,
-        [_]) {
-      // Start the game if someone has started a game with you
-
-      var playerState = PlayerState.fromJson(payload['data']);
-      log.i(playerState);
-    });
-  }
-
-  void _subscribeChannel() {
-    _channel.subscribe(
+      _onPresenceSync();
+    }).on(RealtimeListenTypes.presence, ChannelFilter(event: 'leave'), (payload, [ref]) {
+      log.i('leave $payload $ref');
+      _onPresenceSync(leaveRef: ref);
+    }).on(RealtimeListenTypes.broadcast, ChannelFilter(event: GameEvent.playerPosition.name), (payload, [_]) {
+      var data = PlayerPosition.fromJson(payload['data']);
+      if (data.userId != manager.me.value.id) {
+        onPlayerPositionChanged.add(data);
+      }
+    }).subscribe(
       (status, [error]) {
-        log.i(status);
         switch (status) {
           case 'SUBSCRIBED':
             _channelState = ChannelState.subscribed;
@@ -61,19 +56,60 @@ class ChannelManager {
             _channelState = ChannelState.error;
         }
       },
+      8000.ms,
     );
   }
 
-  Future<void> _onSubscribed() async {
-    var res = await _trackMe();
-    log.d(res);
+  void _onPresenceSync({String? leaveRef}) {
+    log.i('leave $leaveRef');
+    Map<String, List<Presence>> presenceState = _channel.presenceState() as Map<String, List<Presence>>;
+
+    var playerList = presenceState.values
+        .where((element) =>
+            element.isNotEmpty && (leaveRef != null ? leaveRef != element.first.presenceRef : true))
+        .map((presences) => presences.first)
+        .map((presence) {
+      var payload = presence.payload;
+      var player = PlayerState.fromJson(payload['data']);
+      if (player.id == manager.me.value.id) {
+        return null;
+      }
+      // apply id with presence ref
+      return player;
+    }).whereNotNull();
+    Map<String, PlayerState> players = {};
+    for (var player in playerList) {
+      players[player.id] = player;
+    }
+
+    manager.channel.players.value = players;
+    log.i(players);
   }
 
-  Future<ChannelResponse> _trackMe() {
-    return _sendPresence(manager.me.value);
+  Future<void> _onSubscribed() async {}
+
+  Future<ChannelResponse?> trackMe(PlayerState player) {
+    return _sendPresence(player.toJson());
   }
 
-  Future<ChannelResponse> _sendPresence(dynamic data) {
-    return _channel.track({'data': data.toJson()});
+  Future<ChannelResponse?> sendPosition(double x, double y) {
+    return _sendBroadcast(
+      GameEvent.playerPosition,
+      PlayerPosition(userId: manager.me.value.id, x: x, y: y).toJson(),
+    );
+  }
+
+  Future<ChannelResponse?> _sendPresence(dynamic data) async {
+    if (!_isSubscribed) return null;
+    return _channel.track({'data': data});
+  }
+
+  Future<ChannelResponse?> _sendBroadcast(GameEvent event, dynamic data) async {
+    if (!_isSubscribed) return null;
+    return _channel.send(
+      type: RealtimeListenTypes.broadcast,
+      event: event.name,
+      payload: {'data': data},
+    );
   }
 }

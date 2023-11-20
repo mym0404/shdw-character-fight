@@ -2,26 +2,46 @@ import 'package:flame/events.dart';
 import 'package:flame/experimental.dart';
 
 import '../../export.dart';
-import '../component/item/circle_food.dart';
 import '../component/player/player.dart';
+import '../component/player/player_readonly.dart';
+import '../state/player_state.dart';
+import '../util/DisposeBag.dart';
 import 'world_background.dart';
 
-class GameWorld extends World with GRef {
-  GameWorld({
-    required this.me,
-  });
-
+class GameWorld extends World with GRef, DisposeBag {
   double accumulatedTime = 0;
-  double foodSpawnInterval = 20;
-  int foodCount = 0;
 
-  final Player me;
+  Player? myPlayer;
+  Map<String, PlayerReadonly> otherPlayers = {};
 
   @override
   FutureOr<void> onLoad() {
     add(WorldBackground());
-    addPlayer(me);
     _setUpCam();
+
+    listenStream(manager.channel.players, (players) {
+      for (var MapEntry(value: player) in players.entries) {
+        updateOtherPlayer(player);
+      }
+
+      // remove player if doesn't exist
+      var removedUserIds = <String>{};
+      otherPlayers.forEach((key, value) {
+        if (!players.containsKey(key)) {
+          removedUserIds.add(key);
+        }
+      });
+
+      for (var id in removedUserIds) {
+        otherPlayers[id]?.removeFromParent();
+        otherPlayers.remove(id);
+      }
+    });
+    listenStream(channelManager.onPlayerPositionChanged, (data) {
+      if (otherPlayers.containsKey(data.userId)) {
+        otherPlayers[data.userId]!.updatePosition(data.x, data.y);
+      }
+    });
   }
 
   void _setUpCam() {
@@ -35,33 +55,36 @@ class GameWorld extends World with GRef {
     super.update(dt);
 
     _followCameraToPlayer();
-
-    // if (accumulatedTime >= foodSpawnInterval) {
-    //   _spawnCircleFood();
-    //   accumulatedTime = 0;
-    // }
   }
 
   void _followCameraToPlayer() {
-    game.cam.viewfinder.position = me.position - game.size / 2;
+    if (myPlayer == null) return;
+    game.cam.viewfinder.position = myPlayer!.position - game.size / 2;
   }
 
   void onMouseMove(PointerHoverInfo info) {
-    me.moveWithMousePosition(info);
+    if (myPlayer == null) return;
+    myPlayer?.moveWithMousePosition(info);
   }
 
-  void addPlayer(Player player) {
-    player.position = V2(Const.worldWidth / 2, Const.worldHeight / 2);
+  void addMyPlayer() {
+    myPlayer = Player(key: ComponentKey.named('player'))
+      ..x = 100
+      ..y = 100;
+    add(myPlayer!);
+  }
+
+  void _addOtherPlayer(PlayerState state) {
+    var player = PlayerReadonly()..updateWithPlayerState(state);
+    otherPlayers[state.id] = player;
     add(player);
   }
 
-  void _spawnCircleFood() {
-    log.i('sapwn');
-    for (int i = 0; i < 100 && foodCount < 10000; i++, foodCount++) {
-      var spawnX = Const.worldPadding + Random().nextDouble() * (Const.worldWidth - Const.worldPadding * 2);
-      var spawnY = Const.worldPadding + Random().nextDouble() * (Const.worldHeight - Const.worldPadding * 2);
-
-      add(CircleFood()..position = V2(spawnX, spawnY));
+  void updateOtherPlayer(PlayerState state) {
+    if (otherPlayers[state.id] == null) {
+      _addOtherPlayer(state);
+    } else {
+      otherPlayers[state.id]!.updateWithPlayerState(state);
     }
   }
 }

@@ -1,23 +1,24 @@
+import 'package:flame/effects.dart';
 import 'package:flame/layout.dart';
-import 'package:http/http.dart' as http;
+import 'package:flame_network_assets/flame_network_assets.dart';
 
 import '../../../export.dart';
+import '../../state/player_state.dart';
 import '../weapon/player_weapon.dart';
 import 'player_hud.dart';
 
 class PlayerReadonly extends PositionComponent {
-  PlayerReadonly({
-    required this.level,
-  }) : super(
-          size: V2(64, 64),
-          anchor: Anchor.center,
+  PlayerReadonly()
+      : super(
+          size: V2.all(Const.playerSize),
         );
 
   final _PlayerBackground bg = _PlayerBackground();
-  late PlayerHud hud;
+  late final PlayerHud hud = PlayerHud();
   Component? thumbnail;
 
-  int level;
+  double lerpRate = 10.0;
+  V2 destinationPosition = V2.zero();
 
   @override
   FutureOr<void> onLoad() {
@@ -31,7 +32,6 @@ class PlayerReadonly extends PositionComponent {
   }
 
   void _initHud() {
-    hud = PlayerHud();
     add(hud);
   }
 
@@ -39,8 +39,24 @@ class PlayerReadonly extends PositionComponent {
     add(AlignComponent(child: PlayerWeapon(), alignment: Anchor.center)..priority = -10);
   }
 
+  @override
+  void update(double dt) {
+    if (position.distanceTo(destinationPosition) >= 100) {
+      position = destinationPosition;
+    } else {
+      position.lerp(destinationPosition, lerpRate * dt);
+    }
+
+    super.update(dt);
+  }
+
+  void updateWithPlayerState(PlayerState state) {
+    updateNickname(state.nickname);
+    updateThumbnail(state.thumbnail);
+  }
+
   void updatePosition(double x, double y) {
-    position = V2(x, y);
+    destinationPosition = V2(x, y);
   }
 
   void updateBackgroundBorderColor(Color color) {
@@ -52,14 +68,14 @@ class PlayerReadonly extends PositionComponent {
   }
 
   Future<void> updateThumbnail(String thumbnail) async {
-    final response = await http.get(Uri.parse(thumbnail));
-    final image = await decodeImageFromList(response.bodyBytes);
+    final networkAssets = FlameNetworkImages();
+    final playerSprite = await networkAssets.load(thumbnail);
 
     this.thumbnail?.removeFromParent();
 
     this.thumbnail = ClipComponent.circle(
       children: [
-        SpriteComponent.fromImage(image)..size = size,
+        SpriteComponent.fromImage(playerSprite)..size = size,
       ],
     )..size = size;
 
