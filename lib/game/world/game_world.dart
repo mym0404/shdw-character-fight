@@ -2,6 +2,8 @@ import 'package:flame/events.dart';
 import 'package:flame/experimental.dart';
 
 import '../../export.dart';
+import '../component/jewel/jewel_component.dart';
+import '../component/jewel/jewel_stone.dart';
 import '../component/player/player.dart';
 import '../component/player/player_readonly.dart';
 import '../state/player_state.dart';
@@ -44,6 +46,15 @@ class GameWorld extends World with GRef, DisposeBag {
     });
   }
 
+  @override
+  void onRemove() {
+    if (myPlayer != null) {
+      di.unregister(instance: myPlayer!);
+    }
+
+    super.onRemove();
+  }
+
   void _setUpCam() {
     var worldRect = Rectangle.fromPoints(V2(0, 0), V2(Const.worldWidth, Const.worldHeight));
     game.cam.setBounds(worldRect);
@@ -72,11 +83,15 @@ class GameWorld extends World with GRef, DisposeBag {
       ..anchor = Anchor.center
       ..x = 100
       ..y = 100;
+    di.registerSingleton<Player>(myPlayer!);
     add(myPlayer!);
+
+    // should be removed
+    add(JewelComponent(jewel: JewelStone())..position = V2(150, 150));
   }
 
   void _addOtherPlayer(PlayerState state) {
-    var player = PlayerReadonly()
+    var player = PlayerReadonly(isMe: false)
       ..anchor = Anchor.center
       ..updateWithPlayerState(state);
     otherPlayers[state.id] = player;

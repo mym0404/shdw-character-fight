@@ -7,13 +7,15 @@ import '../weapon/player_weapon.dart';
 import 'player_hud.dart';
 
 class PlayerReadonly extends PositionComponent {
-  PlayerReadonly()
-      : super(
+  PlayerReadonly({
+    required this.isMe,
+  }) : super(
           size: V2.all(Const.playerSize),
         );
 
   final _PlayerBackground bg = _PlayerBackground();
   late final PlayerHud hud = PlayerHud();
+  bool isMe;
   Component? thumbnail;
 
   double lerpRate = 10.0;
@@ -35,7 +37,7 @@ class PlayerReadonly extends PositionComponent {
   }
 
   void _initWeapon() {
-    add(AlignComponent(child: PlayerWeapon(), alignment: Anchor.center)..priority = -10);
+    add(AlignComponent(child: PlayerWeapon(isMe: isMe), alignment: Anchor.center)..priority = -10);
   }
 
   @override

@@ -16,6 +16,18 @@ class _GamePageState extends State<GamePage> {
   final MainGame _game = MainGame();
 
   @override
+  void initState() {
+    super.initState();
+    di.registerSingleton(_game);
+  }
+
+  @override
+  void dispose() {
+    di.unregister(instance: _game);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GameWidget(
       game: _game,

@@ -2,13 +2,20 @@ import 'package:flame/collisions.dart';
 import 'package:flame/effects.dart';
 
 import '../../../export.dart';
+import '../player/player.dart';
 import 'weapon_circle.dart';
 
 class PlayerWeapon extends PositionComponent {
+  PlayerWeapon({
+    required this.isMe,
+  });
+
   List<Weapon> weapons = [];
 
   int weaponCount = 3;
   int weaponMoveDistance = 100;
+
+  bool isMe;
 
   @override
   FutureOr<void> onLoad() {
@@ -26,7 +33,7 @@ class PlayerWeapon extends PositionComponent {
     double angle = 0;
     double angleGap = 2 * pi / weaponCount;
     for (int i = 0; i < weaponCount; i++, angle += angleGap) {
-      var weapon = WeaponCircle()..anchor = Anchor.center;
+      var weapon = WeaponCircle(withCollisionCallbacks: isMe)..anchor = Anchor.center;
       weapon.add(weapon.renderChild);
 
       weapons.add(weapon);
@@ -45,11 +52,8 @@ class PlayerWeapon extends PositionComponent {
     }
   }
 
-  void onCollision(PositionComponent other) {}
-
-  @override
-  void update(double dt) {
-    super.update(dt);
+  void onCollision(PositionComponent other) {
+    di<Player>().onCollision(other);
   }
 }
 

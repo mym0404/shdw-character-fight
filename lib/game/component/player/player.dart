@@ -3,6 +3,7 @@ import 'package:flame/events.dart';
 
 import '../../../export.dart';
 import '../../util/DisposeBag.dart';
+import '../jewel/jewel_component.dart';
 import 'player_readonly.dart';
 
 class Player extends PositionComponent with GRef, DisposeBag {
@@ -11,7 +12,7 @@ class Player extends PositionComponent with GRef, DisposeBag {
   double maxSpeed = 100;
   V2 velocity = V2.zero();
 
-  final PlayerReadonly innerPlayer = PlayerReadonly();
+  final PlayerReadonly innerPlayer = PlayerReadonly(isMe: true);
 
   double accDelta = 0;
 
@@ -59,5 +60,11 @@ class Player extends PositionComponent with GRef, DisposeBag {
     // Clamp with boundary
     position.x = position.x.clamp(Const.worldPadding, Const.worldWidth - Const.worldPadding);
     position.y = position.y.clamp(Const.worldPadding, Const.worldHeight - Const.worldPadding);
+  }
+
+  void onCollision(PositionComponent other) {
+    if (other is JewelComponent) {
+      log.i(other);
+    }
   }
 }
