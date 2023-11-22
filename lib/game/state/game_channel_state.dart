@@ -4,5 +4,5 @@ import 'player_state.dart';
 class GameChannelState extends ChangeNotifier {
   GameChannelState();
 
-  BS<Map<String, PlayerState>> players = BS.seeded({});
+  VAL<Map<String, PlayerState>> players = VAL({});
 }

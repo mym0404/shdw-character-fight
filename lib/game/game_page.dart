@@ -4,8 +4,10 @@ import '../export.dart';
 import 'main_game.dart';
 import 'overlay/game_ready_overlay.dart';
 import 'overlay/overlay_id.dart';
+import 'overlay/players_panel.dart';
+import 'state/game_manager.dart';
 
-class GamePage extends StatefulWidget {
+class GamePage extends StatefulWidget with WatchItStatefulWidgetMixin {
   const GamePage({super.key});
 
   @override
@@ -29,6 +31,8 @@ class _GamePageState extends State<GamePage> {
 
   @override
   Widget build(BuildContext context) {
+    var gameState = watchValue((GameManager p0) => p0.state);
+
     return Stack(
       children: [
         GameWidget(
@@ -37,6 +41,20 @@ class _GamePageState extends State<GamePage> {
             OverlayId.ready: (context, game) => GameReadyOverlay(game: game as MainGame),
           },
         ),
+        if (gameState.isGameStarted) ...[
+          TopRight(
+            child: PaddingAll(
+              24,
+              child: PlayersPanel(),
+            ),
+          ),
+          // TopLeft(
+          //   child: PaddingAll(
+          //     24,
+          //     child: PlayersPanel(),
+          //   ),
+          // ),
+        ],
       ],
     );
   }

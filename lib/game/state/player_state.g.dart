@@ -11,6 +11,7 @@ _$PlayerStateImpl _$$PlayerStateImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       nickname: json['nickname'] as String? ?? '',
       thumbnail: json['thumbnail'] as String? ?? 'https://iili.io/JCm0irv.png',
+      exp: json['exp'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$$PlayerStateImplToJson(_$PlayerStateImpl instance) =>
@@ -18,4 +19,5 @@ Map<String, dynamic> _$$PlayerStateImplToJson(_$PlayerStateImpl instance) =>
       'id': instance.id,
       'nickname': instance.nickname,
       'thumbnail': instance.thumbnail,
+      'exp': instance.exp,
     };

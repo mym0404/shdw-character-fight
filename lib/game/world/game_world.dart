@@ -2,12 +2,12 @@ import 'package:flame/events.dart';
 import 'package:flame/experimental.dart';
 
 import '../../export.dart';
+import '../../feature/common/util/dispose_bag.dart';
 import '../component/jewel/jewel_component.dart';
 import '../component/jewel/jewel_stone.dart';
 import '../component/player/player.dart';
 import '../component/player/player_readonly.dart';
 import '../state/player_state.dart';
-import '../util/DisposeBag.dart';
 import 'world_background.dart';
 
 class GameWorld extends World with GRef, DisposeBag {
@@ -21,7 +21,7 @@ class GameWorld extends World with GRef, DisposeBag {
     add(WorldBackground());
     _setUpCam();
 
-    listenStream(manager.channel.players, (players) {
+    listenValue(manager.channel.players, (players) {
       for (var MapEntry(value: player) in players.entries) {
         updateOtherPlayer(player);
       }

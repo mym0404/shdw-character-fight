@@ -16,10 +16,10 @@ class OverlayPanel extends StatelessWidget {
         borderRadius: 12.bRadius,
         border: Border.all(color: C.onSurface),
         boxShadow: [
-          const BoxShadow(color: Colors.white38, blurRadius: 20),
-          BoxShadow(color: C.primary50, blurRadius: 12),
+          const BoxShadow(color: Colors.white38, blurRadius: 20, blurStyle: BlurStyle.outer),
+          BoxShadow(color: C.primary50, blurRadius: 12, blurStyle: BlurStyle.outer),
         ],
-        color: C.surface,
+        color: C.surface.withOpacity(0.5),
       ),
       child: child,
     );

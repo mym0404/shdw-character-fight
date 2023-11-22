@@ -10,7 +10,7 @@ class PlayerState with _$PlayerState {
     required String id,
     @Default('') String nickname,
     @Default('https://iili.io/JCm0irv.png') String thumbnail,
-    // @Default(0) int exp,
+    @Default(0) int exp,
     // @Default(0.0) double x,
     // @Default(0.0) double y,
   }) = _PlayerState;

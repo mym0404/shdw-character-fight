@@ -2,6 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'feature/common/widget/SimpleStreamBuilder.dart';
 import 'game/main_game.dart';
 
 export 'dart:async' hide Timer;
@@ -9,6 +10,7 @@ export 'dart:convert';
 export 'dart:math' hide log, Rectangle;
 
 export 'package:collection/collection.dart';
+export 'package:extra_alignments/extra_alignments.dart';
 export 'package:flame/components.dart';
 export 'package:flame/flame.dart';
 export 'package:flutter/foundation.dart' hide binarySearch, mergeSort;
@@ -31,21 +33,24 @@ export 'design/color/theme_colors.dart';
 export 'design/theme.dart';
 export 'design/typography/text_style.dart';
 export 'feature/common/ui/widget/app_scaffold.dart';
+export 'feature/common/util/duration_util.dart';
+export 'feature/common/util/flame_extension.dart';
 export 'feature/common/util/is.dart';
 export 'feature/common/util/lifecycle_util.dart';
 export 'feature/common/util/local_storage.dart';
 export 'feature/common/util/snack_bar_extension.dart';
 export 'feature/common/util/style_extension.dart';
 export 'game/util/const.dart';
-export 'game/util/duration_util.dart';
-export 'game/util/flame_extension.dart';
 export 'service/di/singleton.dart';
 export 'service/l10n/generated/l10n.dart';
 export 'service/l10n/util/l10n_util.dart';
 export 'service/router/route_extension.dart';
 
 typedef VC = void Function();
-typedef VN<T> = ValueNotifier<T>;
+typedef VAL<T> = ValueNotifier<T>;
+typedef VL<T> = ValueListenableBuilder<T>;
+typedef SB<T> = StreamBuilder<T>;
+typedef SSB<T> = SimpleStreamBuilder<T>;
 typedef BS<T> = BehaviorSubject<T>;
 typedef TC = TextEditingController;
 typedef Json = Map<String, dynamic>;

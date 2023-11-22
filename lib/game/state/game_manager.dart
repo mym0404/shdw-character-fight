@@ -6,8 +6,8 @@ import 'game_state.dart';
 import 'player_state.dart';
 
 class GameManager {
-  BS<GameState> state = BS.seeded(const GameState());
-  BS<PlayerState> me = BS.seeded(PlayerState(id: const Uuid().v4()));
+  VAL<GameState> state = VAL(const GameState());
+  VAL<PlayerState> me = VAL(PlayerState(id: const Uuid().v4()));
   GameChannelState channel = GameChannelState();
   // BS<List<PlayerState>> others = channel;
 

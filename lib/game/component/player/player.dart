@@ -2,7 +2,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/events.dart';
 
 import '../../../export.dart';
-import '../../util/DisposeBag.dart';
+import '../../../feature/common/util/dispose_bag.dart';
 import '../jewel/jewel_component.dart';
 import 'player_readonly.dart';
 
@@ -33,7 +33,7 @@ class Player extends PositionComponent with GRef, DisposeBag {
   void _initPlayer() {
     add(innerPlayer);
 
-    listenStream(manager.me, (v) {
+    listenValue(manager.me, (v) {
       innerPlayer.updateWithPlayerState(v);
     });
   }

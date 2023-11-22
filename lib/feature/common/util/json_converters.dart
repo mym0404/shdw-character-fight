@@ -1,4 +1,4 @@
-import '../../export.dart';
+import '../../../export.dart';
 
 class Vector2JsonConverter extends JsonConverter<V2, String> {
   const Vector2JsonConverter();

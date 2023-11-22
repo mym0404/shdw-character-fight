@@ -1,5 +1,3 @@
-import 'package:flame/effects.dart';
-
 import '../../../export.dart';
 import 'jewel.dart';
 import 'jewel_sprite_animation_component.dart';

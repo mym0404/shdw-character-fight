@@ -1,4 +1,4 @@
-import '../../export.dart';
+import '../../../export.dart';
 
 extension PositionComponentExtension on PositionComponent {
   // need caution
