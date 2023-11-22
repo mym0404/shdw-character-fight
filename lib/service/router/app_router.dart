@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../export.dart';
-import '../../feature/main/ui/page/main_tab_navigator.dart';
-import '../../feature/setting/ui/page/setting_page.dart';
 import '../../game/game_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -15,28 +13,7 @@ final appRouter = GoRouter(
       navigatorKey: _rootNavigatorKey,
       builder: (context, state, child) => AppScaffold(child: child),
       routes: [
-        StatefulShellRoute.indexedStack(
-          parentNavigatorKey: _rootNavigatorKey,
-          pageBuilder: (context, state, navigationShell) {
-            return _createPage(
-              context,
-              state,
-              builder: (_) => MainTabNavigator(child: navigationShell),
-            );
-          },
-          branches: [
-            StatefulShellBranch(
-              routes: [
-                AppRoute('/', (_) => const GamePage()),
-              ],
-            ),
-            StatefulShellBranch(
-              routes: [
-                AppRoute('/setting', (_) => const SettingPage()),
-              ],
-            ),
-          ],
-        ),
+        AppRoute('/', (_) => const GamePage()),
       ],
     ),
   ],

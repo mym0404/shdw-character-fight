@@ -7,7 +7,7 @@ abstract class Jewel {
   int get exp;
   String get name;
   int get level;
-  double size = 48;
+  double size = 128;
 
   PositionComponent renderComponent() {
     return CircleComponent(radius: size / 2, paint: Paint()..color = Colors.blueGrey);

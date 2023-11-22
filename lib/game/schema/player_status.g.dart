@@ -1,22 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'player_position.dart';
+part of 'player_status.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$PlayerPositionImpl _$$PlayerPositionImplFromJson(Map<String, dynamic> json) =>
-    _$PlayerPositionImpl(
+_$PlayerStatusImpl _$$PlayerStatusImplFromJson(Map<String, dynamic> json) =>
+    _$PlayerStatusImpl(
       userId: json['userId'] as String,
       x: (json['x'] as num).toDouble(),
       y: (json['y'] as num).toDouble(),
+      exp: json['exp'] as int,
     );
 
-Map<String, dynamic> _$$PlayerPositionImplToJson(
-        _$PlayerPositionImpl instance) =>
+Map<String, dynamic> _$$PlayerStatusImplToJson(_$PlayerStatusImpl instance) =>
     <String, dynamic>{
       'userId': instance.userId,
       'x': instance.x,
       'y': instance.y,
+      'exp': instance.exp,
     };

@@ -79,7 +79,7 @@ class GameWorld extends World with GRef, DisposeBag {
   }
 
   void addMyPlayer() {
-    myPlayer = Player(key: ComponentKey.named('player'))
+    myPlayer = Player(key: ComponentKey.named('player'), onPositionChanged: _onMyPlayerPositionChanged)
       ..anchor = Anchor.center
       ..x = 100
       ..y = 100;
@@ -88,6 +88,10 @@ class GameWorld extends World with GRef, DisposeBag {
 
     // should be removed
     add(JewelComponent(jewel: JewelStone())..position = V2(150, 150));
+  }
+
+  void _onMyPlayerPositionChanged(double x, double y) {
+    channelManager.sendStatus(x, y, 0);
   }
 
   void _addOtherPlayer(PlayerState state) {

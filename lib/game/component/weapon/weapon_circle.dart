@@ -25,7 +25,13 @@ class WeaponCircle extends PositionComponent
   }
 
   @override
-  PositionComponent get renderChild => CircleComponent(radius: radius, paint: Paint()..color = C.primary);
+  PositionComponent get renderChild => CircleComponent(
+        radius: radius,
+        paint: Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 5
+          ..color = C.primary,
+      );
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {

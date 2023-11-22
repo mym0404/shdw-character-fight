@@ -29,11 +29,15 @@ class _GamePageState extends State<GamePage> {
 
   @override
   Widget build(BuildContext context) {
-    return GameWidget(
-      game: _game,
-      overlayBuilderMap: {
-        OverlayId.ready: (context, game) => GameReadyOverlay(game: game as MainGame),
-      },
+    return Stack(
+      children: [
+        GameWidget(
+          game: _game,
+          overlayBuilderMap: {
+            OverlayId.ready: (context, game) => GameReadyOverlay(game: game as MainGame),
+          },
+        ),
+      ],
     );
   }
 }

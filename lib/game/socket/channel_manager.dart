@@ -3,11 +3,11 @@ import 'dart:html' as html;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../export.dart';
-import '../schema/player_position.dart';
+import '../schema/player_status.dart';
 import '../state/player_state.dart';
 
 enum GameEvent {
-  playerPosition,
+  playerStatus,
 }
 
 enum ChannelState {
@@ -27,7 +27,7 @@ class ChannelManager {
 
   bool get _isSubscribed => _channelState == ChannelState.subscribed;
 
-  PublishSubject<PlayerPosition> onPlayerPositionChanged = PublishSubject();
+  PublishSubject<PlayerStatus> onPlayerPositionChanged = PublishSubject();
 
   Future<void> _init() async {
     if (kDebugMode) return;
@@ -45,8 +45,8 @@ class ChannelManager {
     }).on(RealtimeListenTypes.presence, ChannelFilter(event: 'leave'), (payload, [ref]) {
       log.i('leave $payload $ref');
       _onPresenceSync(leaveRef: ref);
-    }).on(RealtimeListenTypes.broadcast, ChannelFilter(event: GameEvent.playerPosition.name), (payload, [_]) {
-      var data = PlayerPosition.fromJson(payload['data']);
+    }).on(RealtimeListenTypes.broadcast, ChannelFilter(event: GameEvent.playerStatus.name), (payload, [_]) {
+      var data = PlayerStatus.fromJson(payload['data']);
       if (data.userId != manager.me.value.id) {
         onPlayerPositionChanged.add(data);
       }
@@ -89,7 +89,6 @@ class ChannelManager {
     }
 
     manager.channel.players.value = players;
-    log.i(players);
   }
 
   Future<void> _onSubscribed() async {}
@@ -98,10 +97,10 @@ class ChannelManager {
     return _sendPresence(player.toJson());
   }
 
-  Future<ChannelResponse?> sendPosition(double x, double y) {
+  Future<ChannelResponse?> sendStatus(double x, double y, int exp) {
     return _sendBroadcast(
-      GameEvent.playerPosition,
-      PlayerPosition(userId: manager.me.value.id, x: x, y: y).toJson(),
+      GameEvent.playerStatus,
+      PlayerStatus(userId: manager.me.value.id, x: x, y: y, exp: exp).toJson(),
     );
   }
 

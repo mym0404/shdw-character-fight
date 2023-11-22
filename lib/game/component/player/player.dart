@@ -7,7 +7,10 @@ import '../jewel/jewel_component.dart';
 import 'player_readonly.dart';
 
 class Player extends PositionComponent with GRef, DisposeBag {
-  Player({super.key});
+  Player({
+    super.key,
+    required this.onPositionChanged,
+  });
 
   double maxSpeed = 250;
   V2 velocity = V2.zero();
@@ -16,6 +19,8 @@ class Player extends PositionComponent with GRef, DisposeBag {
 
   double accDelta = 0;
   V2 lastMovementPosition = V2.zero();
+
+  void Function(double x, double y) onPositionChanged;
 
   @override
   FutureOr<void> onLoad() async {
@@ -47,7 +52,7 @@ class Player extends PositionComponent with GRef, DisposeBag {
 
     // send position information to channel
     if (accDelta >= (kDebugMode ? 5.0 : 0.1)) {
-      channelManager.sendPosition(x, y);
+      onPositionChanged(x, y);
       accDelta = 0;
     }
   }

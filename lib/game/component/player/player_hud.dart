@@ -24,14 +24,14 @@ class PlayerHud extends PositionComponent with ParentIsA<PlayerReadonly> {
         style: TS.b2.c(C.onSurface),
       ),
     );
-    nicknameText.position = V2(parent.width / 2, parent.height + 12);
+    nicknameText.position = V2(parent.width / 2, -12);
     nicknameText.anchor = Anchor.center;
     add(nicknameText);
   }
 
   void _initHpStatus() {
     hpStatus = HpStatusHud(maxHp: 100, currentHp: 100);
-    hpStatus.position = V2(parent.width / 2, -10);
+    hpStatus.position = V2(parent.width / 2, -28);
     hpStatus.anchor = Anchor.center;
     add(hpStatus);
   }

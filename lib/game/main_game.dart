@@ -16,7 +16,8 @@ class MainGame extends FlameGame with MouseMovementDetector, HasCollisionDetecti
   GameWorld get gameWorld => world as GameWorld;
 
   @override
-  FutureOr<void> onLoad() {
+  FutureOr<void> onLoad() async {
+    await images.loadAllImages();
     _loadWorldAndCam();
 
     overlays.add(OverlayId.ready);

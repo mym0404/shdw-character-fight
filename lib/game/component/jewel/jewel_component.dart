@@ -34,9 +34,4 @@ class JewelComponent extends PositionComponent with CollisionCallbacks {
     hud = JewelHud(jewel: jewel)..position = V2(width / 2, -4);
     add(hud);
   }
-
-  @override
-  void updateTree(double dt) {
-    super.updateTree(dt);
-  }
 }
