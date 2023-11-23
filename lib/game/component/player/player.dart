@@ -74,6 +74,8 @@ class Player extends PositionComponent with GRef, DisposeBag {
   }
 
   void onCollision(PositionComponent other) {
-    if (other is JewelComponent) {}
+    if (other is JewelComponent) {
+      other.hp -= 1;
+    }
   }
 }

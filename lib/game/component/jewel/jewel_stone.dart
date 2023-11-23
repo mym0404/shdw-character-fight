@@ -7,7 +7,7 @@ class JewelStone extends Jewel {
   int get exp => 1;
 
   @override
-  int get hp => 10;
+  int get hp => 1000;
 
   @override
   int get level => 1;
@@ -17,6 +17,6 @@ class JewelStone extends Jewel {
 
   @override
   PositionComponent renderComponent() {
-    return JewelSpriteAnimationComponent(assetName: 'planet/stone.png', frameCount: 1, size: size.v2);
+    return JewelSpriteAnimationComponent(assetName: 'jewel/jewel_1.png', frameCount: 1, size: size.v2);
   }
 }

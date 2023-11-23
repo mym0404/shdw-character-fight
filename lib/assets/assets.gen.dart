@@ -9,27 +9,8 @@
 
 import 'package:flutter/widgets.dart';
 
-class $AssetsImagesGen {
-  const $AssetsImagesGen();
-
-  $AssetsImagesPlanetGen get planet => const $AssetsImagesPlanetGen();
-}
-
-class $AssetsImagesPlanetGen {
-  const $AssetsImagesPlanetGen();
-
-  /// File path: assets/images/planet/stone.png
-  AssetGenImage get stone =>
-      const AssetGenImage('assets/images/planet/stone.png');
-
-  /// List of all assets
-  List<AssetGenImage> get values => [stone];
-}
-
 class Assets {
   Assets._();
-
-  static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 
 class AssetGenImage {

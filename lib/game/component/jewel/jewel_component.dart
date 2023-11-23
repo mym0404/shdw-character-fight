@@ -5,11 +5,18 @@ import 'hud/jewel_hud.dart';
 import 'jewel.dart';
 
 class JewelComponent extends PositionComponent with CollisionCallbacks {
-  JewelComponent({required this.jewel}) : hp = jewel.hp;
+  JewelComponent({required this.jewel}) : _hp = jewel.hp;
 
   late JewelHud hud;
   Jewel jewel;
-  int hp;
+
+  int _hp;
+
+  int get hp => _hp;
+  set hp(int value) {
+    _hp = value;
+    hud.applyHp(value);
+  }
 
   @override
   FutureOr<void> onLoad() {

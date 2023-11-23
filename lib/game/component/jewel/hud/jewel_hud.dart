@@ -24,11 +24,14 @@ class JewelHud extends PositionComponent {
   }
 
   void _initHpStatus() {
-    hpStatus = HpStatusHud(currentHp: 100, maxHp: 100);
+    hpStatus = HpStatusHud(currentHp: jewel.hp, maxHp: jewel.hp);
     hpStatus.position = V2(0, -22);
     hpStatus.anchor = Anchor.bottomCenter;
     add(hpStatus);
   }
 
-  void applyHp(int hp) {}
+  void applyHp(int hp) {
+    hpStatus.currentHp.value = hp;
+    log.i(hpStatus.currentHp.value);
+  }
 }
