@@ -20,6 +20,7 @@ class JewelComponent extends PositionComponent with CollisionCallbacks {
 
   @override
   FutureOr<void> onLoad() {
+    debugMode = true;
     size = V2.all(jewel.size);
     anchor = Anchor.center;
     _renderJewel();

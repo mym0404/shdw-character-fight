@@ -18,6 +18,10 @@ class WeaponCircle extends PositionComponent
   @override
   double get radius => 6;
 
+  bool isCanCollide = true;
+  double collisionReEnableDelay = 0.5;
+  double accumulatedDtAfterCollisionDisabled = 0;
+
   @override
   FutureOr<void> onLoad() {
     add(CircleHitbox());
@@ -34,8 +38,30 @@ class WeaponCircle extends PositionComponent
       );
 
   @override
+  void update(double dt) {
+    super.update(dt);
+
+    if (!isCanCollide) {
+      accumulatedDtAfterCollisionDisabled += dt;
+
+      if (accumulatedDtAfterCollisionDisabled >= collisionReEnableDelay) {
+        accumulatedDtAfterCollisionDisabled = 0;
+        isCanCollide = true;
+      }
+    }
+  }
+
+  @override
+  void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
+    if (!isCanCollide) return;
+    isCanCollide = false;
+    super.onCollisionStart(intersectionPoints, other);
+    parent.onCollisionStart(intersectionPoints, other);
+  }
+
+  @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
-    parent.onCollision(other);
+    parent.onCollision(intersectionPoints, other);
   }
 }

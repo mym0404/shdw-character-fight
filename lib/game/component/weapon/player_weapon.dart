@@ -12,7 +12,7 @@ class PlayerWeapon extends PositionComponent {
 
   List<Weapon> weapons = [];
 
-  int weaponCount = 3;
+  int weaponCount = 15;
   int weaponMoveDistance = 100;
 
   bool isMe;
@@ -24,7 +24,7 @@ class PlayerWeapon extends PositionComponent {
     add(
       RotateEffect.by(
         2 * pi,
-        InfiniteEffectController(EffectController(duration: 1, curve: Curves.linear)),
+        InfiniteEffectController(EffectController(duration: 0.5, curve: Curves.linear)),
       ),
     );
   }
@@ -52,8 +52,12 @@ class PlayerWeapon extends PositionComponent {
     }
   }
 
-  void onCollision(PositionComponent other) {
-    di<Player>().onCollision(other);
+  void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
+    di<Player>().onCollisionStart(intersectionPoints, other);
+  }
+
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    di<Player>().onCollision(intersectionPoints, other);
   }
 }
 

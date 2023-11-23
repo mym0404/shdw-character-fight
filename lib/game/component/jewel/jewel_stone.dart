@@ -1,3 +1,5 @@
+import 'package:flame/collisions.dart';
+
 import '../../../export.dart';
 import 'jewel.dart';
 import 'jewel_sprite_animation_component.dart';
@@ -18,5 +20,10 @@ class JewelStone extends Jewel {
   @override
   PositionComponent renderComponent() {
     return JewelSpriteAnimationComponent(assetName: 'jewel/jewel_1.png', frameCount: 1, size: size.v2);
+  }
+
+  @override
+  ShapeHitbox renderHitBox() {
+    return CircleHitbox(radius: 50, position: V2(20, 20));
   }
 }

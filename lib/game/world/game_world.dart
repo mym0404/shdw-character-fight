@@ -7,6 +7,7 @@ import '../component/jewel/jewel_component.dart';
 import '../component/jewel/jewel_stone.dart';
 import '../component/player/player.dart';
 import '../component/player/player_readonly.dart';
+import '../component/vfx/vfx_effect.dart';
 import '../state/player_state.dart';
 import 'world_background.dart';
 
@@ -88,6 +89,7 @@ class GameWorld extends World with GRef, DisposeBag {
 
     // should be removed
     add(JewelComponent(jewel: JewelStone())..position = V2(150, 150));
+    add(FireVfxEffect()..position = V2(250, 250));
   }
 
   void _onMyPlayerPositionChanged(double x, double y) {

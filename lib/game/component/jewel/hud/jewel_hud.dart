@@ -14,7 +14,6 @@ class JewelHud extends PositionComponent {
   @override
   FutureOr<void> onLoad() {
     width = par.width;
-    log.i(par.size);
     topText = TextComponent(
         text: 'LV.${jewel.level} ${jewel.name}', textRenderer: TextPaint(style: TS.bodyMedium.c(C.white)))
       ..anchor = Anchor.bottomCenter;
@@ -32,6 +31,5 @@ class JewelHud extends PositionComponent {
 
   void applyHp(int hp) {
     hpStatus.currentHp.value = hp;
-    log.i(hpStatus.currentHp.value);
   }
 }

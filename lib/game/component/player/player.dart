@@ -4,6 +4,7 @@ import 'package:flame/events.dart';
 import '../../../export.dart';
 import '../../../feature/common/util/dispose_bag.dart';
 import '../jewel/jewel_component.dart';
+import '../vfx/vfx_effect.dart';
 import 'player_readonly.dart';
 
 class Player extends PositionComponent with GRef, DisposeBag {
@@ -73,9 +74,18 @@ class Player extends PositionComponent with GRef, DisposeBag {
     position.y = position.y.clamp(Const.worldPadding, Const.worldHeight - Const.worldPadding);
   }
 
-  void onCollision(PositionComponent other) {
+  void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is JewelComponent) {
-      other.hp -= 1;
+      _hitJewel(intersectionPoints, other);
     }
   }
+
+  void _hitJewel(Set<Vector2> intersectionPoints, JewelComponent jewel) {
+    jewel.hp -= 1;
+    game.gameWorld.add(FireVfxEffect()
+      ..position =
+          intersectionPoints.first + V2(Random().nextDouble() * 30 - 15, Random().nextDouble() * 30 - 15));
+  }
+
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {}
 }
