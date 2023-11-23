@@ -24,6 +24,7 @@ mixin _$PlayerState {
   String get nickname => throw _privateConstructorUsedError;
   String get thumbnail => throw _privateConstructorUsedError;
   int get exp => throw _privateConstructorUsedError;
+  int get hp => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +38,7 @@ abstract class $PlayerStateCopyWith<$Res> {
           PlayerState value, $Res Function(PlayerState) then) =
       _$PlayerStateCopyWithImpl<$Res, PlayerState>;
   @useResult
-  $Res call({String id, String nickname, String thumbnail, int exp});
+  $Res call({String id, String nickname, String thumbnail, int exp, int hp});
 }
 
 /// @nodoc
@@ -57,6 +58,7 @@ class _$PlayerStateCopyWithImpl<$Res, $Val extends PlayerState>
     Object? nickname = null,
     Object? thumbnail = null,
     Object? exp = null,
+    Object? hp = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -75,6 +77,10 @@ class _$PlayerStateCopyWithImpl<$Res, $Val extends PlayerState>
           ? _value.exp
           : exp // ignore: cast_nullable_to_non_nullable
               as int,
+      hp: null == hp
+          ? _value.hp
+          : hp // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -87,7 +93,7 @@ abstract class _$$PlayerStateImplCopyWith<$Res>
       __$$PlayerStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String nickname, String thumbnail, int exp});
+  $Res call({String id, String nickname, String thumbnail, int exp, int hp});
 }
 
 /// @nodoc
@@ -105,6 +111,7 @@ class __$$PlayerStateImplCopyWithImpl<$Res>
     Object? nickname = null,
     Object? thumbnail = null,
     Object? exp = null,
+    Object? hp = null,
   }) {
     return _then(_$PlayerStateImpl(
       id: null == id
@@ -123,6 +130,10 @@ class __$$PlayerStateImplCopyWithImpl<$Res>
           ? _value.exp
           : exp // ignore: cast_nullable_to_non_nullable
               as int,
+      hp: null == hp
+          ? _value.hp
+          : hp // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -134,7 +145,8 @@ class _$PlayerStateImpl extends _PlayerState with DiagnosticableTreeMixin {
       {required this.id,
       this.nickname = '',
       this.thumbnail = 'https://iili.io/JCm0irv.png',
-      this.exp = 0})
+      this.exp = 0,
+      this.hp = 0})
       : super._();
 
   factory _$PlayerStateImpl.fromJson(Map<String, dynamic> json) =>
@@ -151,10 +163,13 @@ class _$PlayerStateImpl extends _PlayerState with DiagnosticableTreeMixin {
   @override
   @JsonKey()
   final int exp;
+  @override
+  @JsonKey()
+  final int hp;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PlayerState(id: $id, nickname: $nickname, thumbnail: $thumbnail, exp: $exp)';
+    return 'PlayerState(id: $id, nickname: $nickname, thumbnail: $thumbnail, exp: $exp, hp: $hp)';
   }
 
   @override
@@ -165,7 +180,8 @@ class _$PlayerStateImpl extends _PlayerState with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('nickname', nickname))
       ..add(DiagnosticsProperty('thumbnail', thumbnail))
-      ..add(DiagnosticsProperty('exp', exp));
+      ..add(DiagnosticsProperty('exp', exp))
+      ..add(DiagnosticsProperty('hp', hp));
   }
 
   @override
@@ -178,12 +194,14 @@ class _$PlayerStateImpl extends _PlayerState with DiagnosticableTreeMixin {
                 other.nickname == nickname) &&
             (identical(other.thumbnail, thumbnail) ||
                 other.thumbnail == thumbnail) &&
-            (identical(other.exp, exp) || other.exp == exp));
+            (identical(other.exp, exp) || other.exp == exp) &&
+            (identical(other.hp, hp) || other.hp == hp));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, nickname, thumbnail, exp);
+  int get hashCode =>
+      Object.hash(runtimeType, id, nickname, thumbnail, exp, hp);
 
   @JsonKey(ignore: true)
   @override
@@ -204,7 +222,8 @@ abstract class _PlayerState extends PlayerState {
       {required final String id,
       final String nickname,
       final String thumbnail,
-      final int exp}) = _$PlayerStateImpl;
+      final int exp,
+      final int hp}) = _$PlayerStateImpl;
   const _PlayerState._() : super._();
 
   factory _PlayerState.fromJson(Map<String, dynamic> json) =
@@ -218,6 +237,8 @@ abstract class _PlayerState extends PlayerState {
   String get thumbnail;
   @override
   int get exp;
+  @override
+  int get hp;
   @override
   @JsonKey(ignore: true)
   _$$PlayerStateImplCopyWith<_$PlayerStateImpl> get copyWith =>

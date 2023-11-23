@@ -6,9 +6,7 @@ import '../../feature/common/widget/overlay_panel.dart';
 import '../main_game.dart';
 
 class GameReadyOverlay extends StatefulWidget {
-  const GameReadyOverlay({super.key, required this.game});
-
-  final MainGame game;
+  const GameReadyOverlay({super.key});
 
   @override
   State<GameReadyOverlay> createState() => _GameReadyOverlayState();
@@ -17,13 +15,15 @@ class GameReadyOverlay extends StatefulWidget {
 class _GameReadyOverlayState extends State<GameReadyOverlay> {
   late final nickname = TC(text: '문명주');
 
+  MainGame get game => di();
+
   @override
   void initState() {
     super.initState();
 
-    if(kDebugMode) {
+    if (kDebugMode) {
       500.ms.runAfter(() {
-        widget.game.startGame(nickname: nickname.text);
+        game.startGame(nickname: nickname.text);
       });
     }
   }
@@ -65,7 +65,7 @@ class _GameReadyOverlayState extends State<GameReadyOverlay> {
                 const Gap(48),
                 FilledButton.tonal(
                   onPressed: () {
-                    widget.game.startGame(nickname: nickname.text);
+                    game.startGame(nickname: nickname.text);
                   },
                   child: const Text('시작하기'),
                 )

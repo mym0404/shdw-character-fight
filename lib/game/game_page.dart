@@ -4,7 +4,9 @@ import '../export.dart';
 import 'main_game.dart';
 import 'overlay/game_ready_overlay.dart';
 import 'overlay/overlay_id.dart';
+import 'overlay/player_status_panel.dart';
 import 'overlay/players_panel.dart';
+import 'overlay/settings_overlay.dart';
 import 'state/game_manager.dart';
 
 class GamePage extends StatefulWidget with WatchItStatefulWidgetMixin {
@@ -38,22 +40,36 @@ class _GamePageState extends State<GamePage> {
         GameWidget(
           game: _game,
           overlayBuilderMap: {
-            OverlayId.ready: (context, game) => GameReadyOverlay(game: game as MainGame),
+            OverlayId.ready: (context, game) => const GameReadyOverlay(),
+            OverlayId.settings: (context, game) => SettingsOverlay()
           },
         ),
         if (gameState.isGameStarted) ...[
-          TopRight(
-            child: PaddingAll(
-              24,
-              child: PlayersPanel(),
+          IgnorePointer(
+            child: TopRight(
+              child: PaddingAll(
+                24,
+                child: PlayersPanel(),
+              ),
             ),
           ),
-          // TopLeft(
-          //   child: PaddingAll(
-          //     24,
-          //     child: PlayersPanel(),
-          //   ),
-          // ),
+          IgnorePointer(
+            child: TopLeft(
+              child: PaddingAll(
+                24,
+                child: PlayerStatusPanel(),
+              ),
+            ),
+          ),
+          BottomRight(
+            child: PaddingAll(
+              24,
+              child: IconButton.filledTonal(
+                onPressed: () => _game.overlays.add(OverlayId.settings),
+                icon: Icon(MdiIcons.cog),
+              ),
+            ),
+          )
         ],
       ],
     );
