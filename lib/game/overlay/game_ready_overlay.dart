@@ -22,9 +22,9 @@ class _GameReadyOverlayState extends State<GameReadyOverlay> {
     super.initState();
 
     if (kDebugMode) {
-      500.ms.runAfter(() {
-        game.startGame(nickname: nickname.text);
-      });
+      // 500.ms.runAfter(() {
+      //   game.startGame(nickname: nickname.text);
+      // });
     }
   }
 

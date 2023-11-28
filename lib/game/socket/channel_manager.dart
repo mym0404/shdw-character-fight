@@ -27,10 +27,10 @@ class ChannelManager {
 
   bool get _isSubscribed => _channelState == ChannelState.subscribed;
 
-  PublishSubject<PlayerStatus> onPlayerPositionChanged = PublishSubject();
+  PublishSubject<PlayerStatus> onPlayerStatusChanged = PublishSubject();
 
   Future<void> _init() async {
-    if (kDebugMode) return;
+    // if (kDebugMode) return;
     _subscribeEvents();
 
     html.window.addEventListener('beforeunload', (e) async {
@@ -48,7 +48,7 @@ class ChannelManager {
     }).on(RealtimeListenTypes.broadcast, ChannelFilter(event: GameEvent.playerStatus.name), (payload, [_]) {
       var data = PlayerStatus.fromJson(payload['data']);
       if (data.userId != manager.me.value.id) {
-        onPlayerPositionChanged.add(data);
+        onPlayerStatusChanged.add(data);
       }
     }).subscribe(
       (status, [error]) {
@@ -67,28 +67,27 @@ class ChannelManager {
   }
 
   void _onPresenceSync({String? leaveRef}) {
-    log.i('leave $leaveRef');
+    log.i('_onPresenceSync $leaveRef');
     Map<String, List<Presence>> presenceState = _channel.presenceState() as Map<String, List<Presence>>;
 
-    var playerList = presenceState.values
+    var players = presenceState.values
         .where((element) =>
             element.isNotEmpty && (leaveRef != null ? leaveRef != element.first.presenceRef : true))
         .map((presences) => presences.first)
         .map((presence) {
-      var payload = presence.payload;
-      var player = PlayerState.fromJson(payload['data']);
-      if (player.id == manager.me.value.id) {
-        return null;
-      }
-      // apply id with presence ref
-      return player;
-    }).whereNotNull();
-    Map<String, PlayerState> players = {};
-    for (var player in playerList) {
-      players[player.id] = player;
-    }
+          var payload = presence.payload;
+          var player = PlayerState.fromJson(payload['data']);
+          if (player.id == manager.me.value.id) {
+            return null;
+          }
+          // apply id with presence ref
+          return player;
+        })
+        .whereNotNull()
+        .toList();
+    log.i(players);
 
-    manager.channel.players.value = players;
+    manager.setPlayers(players);
   }
 
   Future<void> _onSubscribed() async {}
@@ -97,10 +96,10 @@ class ChannelManager {
     return _sendPresence(player.toJson());
   }
 
-  Future<ChannelResponse?> sendStatus(double x, double y, int exp) {
+  Future<ChannelResponse?> sendStatus({double x = -1, double y = -1, int exp = -1, int hp = -1}) {
     return _sendBroadcast(
       GameEvent.playerStatus,
-      PlayerStatus(userId: manager.me.value.id, x: x, y: y, exp: exp).toJson(),
+      PlayerStatus(userId: manager.me.value.id, x: x, y: y, exp: exp, hp: hp).toJson(),
     );
   }
 

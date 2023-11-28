@@ -11,6 +11,7 @@ class PlayerStatus with _$PlayerStatus {
     required double x,
     required double y,
     required int exp,
+    required int hp,
   }) = _PlayerStatus;
 
   factory PlayerStatus.fromJson(Map<String, dynamic> json) => _$PlayerStatusFromJson(json);

@@ -8,9 +8,10 @@ class PlayersPanel extends WatchingWidget {
 
   @override
   Widget build(BuildContext context) {
-    var players = watchValue((GameManager p0) => p0.channel.players);
+    watchValue((GameManager v) => v.playersIds);
+    var players = manager.players.values.map((e) => e.value).toList();
     var me = watchValue((GameManager p0) => p0.me);
-    List<PlayerState> merged = [...players.values, me].sorted((a, b) => b.exp - a.exp);
+    List<PlayerState> merged = [...players, me].sorted((a, b) => b.exp - a.exp);
 
     return SizedBox(
       width: 200,

@@ -24,6 +24,7 @@ mixin _$PlayerStatus {
   double get x => throw _privateConstructorUsedError;
   double get y => throw _privateConstructorUsedError;
   int get exp => throw _privateConstructorUsedError;
+  int get hp => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +38,7 @@ abstract class $PlayerStatusCopyWith<$Res> {
           PlayerStatus value, $Res Function(PlayerStatus) then) =
       _$PlayerStatusCopyWithImpl<$Res, PlayerStatus>;
   @useResult
-  $Res call({String userId, double x, double y, int exp});
+  $Res call({String userId, double x, double y, int exp, int hp});
 }
 
 /// @nodoc
@@ -57,6 +58,7 @@ class _$PlayerStatusCopyWithImpl<$Res, $Val extends PlayerStatus>
     Object? x = null,
     Object? y = null,
     Object? exp = null,
+    Object? hp = null,
   }) {
     return _then(_value.copyWith(
       userId: null == userId
@@ -75,6 +77,10 @@ class _$PlayerStatusCopyWithImpl<$Res, $Val extends PlayerStatus>
           ? _value.exp
           : exp // ignore: cast_nullable_to_non_nullable
               as int,
+      hp: null == hp
+          ? _value.hp
+          : hp // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -87,7 +93,7 @@ abstract class _$$PlayerStatusImplCopyWith<$Res>
       __$$PlayerStatusImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String userId, double x, double y, int exp});
+  $Res call({String userId, double x, double y, int exp, int hp});
 }
 
 /// @nodoc
@@ -105,6 +111,7 @@ class __$$PlayerStatusImplCopyWithImpl<$Res>
     Object? x = null,
     Object? y = null,
     Object? exp = null,
+    Object? hp = null,
   }) {
     return _then(_$PlayerStatusImpl(
       userId: null == userId
@@ -123,6 +130,10 @@ class __$$PlayerStatusImplCopyWithImpl<$Res>
           ? _value.exp
           : exp // ignore: cast_nullable_to_non_nullable
               as int,
+      hp: null == hp
+          ? _value.hp
+          : hp // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -134,7 +145,8 @@ class _$PlayerStatusImpl extends _PlayerStatus with DiagnosticableTreeMixin {
       {required this.userId,
       required this.x,
       required this.y,
-      required this.exp})
+      required this.exp,
+      required this.hp})
       : super._();
 
   factory _$PlayerStatusImpl.fromJson(Map<String, dynamic> json) =>
@@ -148,10 +160,12 @@ class _$PlayerStatusImpl extends _PlayerStatus with DiagnosticableTreeMixin {
   final double y;
   @override
   final int exp;
+  @override
+  final int hp;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PlayerStatus(userId: $userId, x: $x, y: $y, exp: $exp)';
+    return 'PlayerStatus(userId: $userId, x: $x, y: $y, exp: $exp, hp: $hp)';
   }
 
   @override
@@ -162,7 +176,8 @@ class _$PlayerStatusImpl extends _PlayerStatus with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('userId', userId))
       ..add(DiagnosticsProperty('x', x))
       ..add(DiagnosticsProperty('y', y))
-      ..add(DiagnosticsProperty('exp', exp));
+      ..add(DiagnosticsProperty('exp', exp))
+      ..add(DiagnosticsProperty('hp', hp));
   }
 
   @override
@@ -173,12 +188,13 @@ class _$PlayerStatusImpl extends _PlayerStatus with DiagnosticableTreeMixin {
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.x, x) || other.x == x) &&
             (identical(other.y, y) || other.y == y) &&
-            (identical(other.exp, exp) || other.exp == exp));
+            (identical(other.exp, exp) || other.exp == exp) &&
+            (identical(other.hp, hp) || other.hp == hp));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, userId, x, y, exp);
+  int get hashCode => Object.hash(runtimeType, userId, x, y, exp, hp);
 
   @JsonKey(ignore: true)
   @override
@@ -199,7 +215,8 @@ abstract class _PlayerStatus extends PlayerStatus {
       {required final String userId,
       required final double x,
       required final double y,
-      required final int exp}) = _$PlayerStatusImpl;
+      required final int exp,
+      required final int hp}) = _$PlayerStatusImpl;
   const _PlayerStatus._() : super._();
 
   factory _PlayerStatus.fromJson(Map<String, dynamic> json) =
@@ -213,6 +230,8 @@ abstract class _PlayerStatus extends PlayerStatus {
   double get y;
   @override
   int get exp;
+  @override
+  int get hp;
   @override
   @JsonKey(ignore: true)
   _$$PlayerStatusImplCopyWith<_$PlayerStatusImpl> get copyWith =>

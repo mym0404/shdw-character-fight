@@ -24,7 +24,9 @@ class WeaponCircle extends PositionComponent
 
   @override
   FutureOr<void> onLoad() {
-    add(CircleHitbox());
+    if (withCollisionCallbacks) {
+      add(CircleHitbox());
+    }
     size = V2.all(radius * 2);
   }
 
@@ -53,6 +55,7 @@ class WeaponCircle extends PositionComponent
 
   @override
   void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
+    assert(withCollisionCallbacks);
     if (!isCanCollide) return;
     isCanCollide = false;
     super.onCollisionStart(intersectionPoints, other);
@@ -61,6 +64,7 @@ class WeaponCircle extends PositionComponent
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    assert(withCollisionCallbacks);
     super.onCollision(intersectionPoints, other);
     parent.onCollision(intersectionPoints, other);
   }

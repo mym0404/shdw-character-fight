@@ -9,7 +9,7 @@ class JewelStone extends Jewel {
   int get exp => 1;
 
   @override
-  int get hp => 1000;
+  int get hp => 30;
 
   @override
   int get level => 1;

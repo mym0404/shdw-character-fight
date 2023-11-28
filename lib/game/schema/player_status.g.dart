@@ -12,6 +12,7 @@ _$PlayerStatusImpl _$$PlayerStatusImplFromJson(Map<String, dynamic> json) =>
       x: (json['x'] as num).toDouble(),
       y: (json['y'] as num).toDouble(),
       exp: json['exp'] as int,
+      hp: json['hp'] as int,
     );
 
 Map<String, dynamic> _$$PlayerStatusImplToJson(_$PlayerStatusImpl instance) =>
@@ -20,4 +21,5 @@ Map<String, dynamic> _$$PlayerStatusImplToJson(_$PlayerStatusImpl instance) =>
       'x': instance.x,
       'y': instance.y,
       'exp': instance.exp,
+      'hp': instance.hp,
     };

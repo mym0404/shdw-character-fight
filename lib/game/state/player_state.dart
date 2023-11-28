@@ -12,8 +12,8 @@ class PlayerState with _$PlayerState {
     @Default('https://iili.io/JCm0irv.png') String thumbnail,
     @Default(0) int exp,
     @Default(0) int hp,
-    // @Default(0.0) double x,
-    // @Default(0.0) double y,
+    @Default(0.0) double x,
+    @Default(0.0) double y,
   }) = _PlayerState;
 
   factory PlayerState.fromJson(Map<String, dynamic> json) => _$PlayerStateFromJson(json);

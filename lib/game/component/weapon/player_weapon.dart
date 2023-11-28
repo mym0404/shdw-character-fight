@@ -1,4 +1,3 @@
-import 'package:flame/collisions.dart';
 import 'package:flame/effects.dart';
 
 import '../../../export.dart';
@@ -12,14 +11,13 @@ class PlayerWeapon extends PositionComponent {
 
   List<Weapon> weapons = [];
 
-  int weaponCount = 15;
+  int weaponCount = 5;
   int weaponMoveDistance = 100;
 
   bool isMe;
 
   @override
   FutureOr<void> onLoad() {
-    add(RectangleHitbox());
     _initWeapons();
     add(
       RotateEffect.by(
@@ -53,10 +51,12 @@ class PlayerWeapon extends PositionComponent {
   }
 
   void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
+    assert(isMe);
     di<Player>().onCollisionStart(intersectionPoints, other);
   }
 
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    assert(isMe);
     di<Player>().onCollision(intersectionPoints, other);
   }
 }

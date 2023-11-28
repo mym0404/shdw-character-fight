@@ -10,18 +10,15 @@ import 'player_readonly.dart';
 class Player extends PositionComponent with GRef, DisposeBag {
   Player({
     super.key,
-    required this.onPositionChanged,
   });
 
   double maxSpeed = 250;
   V2 velocity = V2.zero();
 
-  final PlayerReadonly innerPlayer = PlayerReadonly(isMe: true);
+  final PlayerReadonly innerPlayer = PlayerReadonly(isMe: true, userId: manager.me.value.id);
 
   double accDelta = 0;
   V2 lastMovementPosition = V2.zero();
-
-  void Function(double x, double y) onPositionChanged;
 
   @override
   FutureOr<void> onLoad() async {
@@ -35,7 +32,7 @@ class Player extends PositionComponent with GRef, DisposeBag {
     add(innerPlayer);
 
     listenValue(manager.me, (v) {
-      innerPlayer.updateWithPlayerState(v);
+      innerPlayer.updateWithPlayerState(v, updatePosition: false);
     });
   }
 
@@ -53,7 +50,7 @@ class Player extends PositionComponent with GRef, DisposeBag {
 
     // send position information to channel
     if (accDelta >= (kDebugMode ? 5.0 : 0.1)) {
-      onPositionChanged(x, y);
+      _onPositionChanged(x, y);
       accDelta = 0;
     }
   }
@@ -81,11 +78,25 @@ class Player extends PositionComponent with GRef, DisposeBag {
   }
 
   void _hitJewel(Set<Vector2> intersectionPoints, JewelComponent jewel) {
-    jewel.hp -= 1;
+    var (isDestoryed,) = jewel.hitByPlayer(damage: 1);
     game.gameWorld.add(FireVfxEffect()
       ..position =
           intersectionPoints.first + V2(Random().nextDouble() * 30 - 15, Random().nextDouble() * 30 - 15));
+
+    if (isDestoryed) {
+      _onExpGained(jewel.jewel.exp);
+    }
   }
 
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {}
+
+  void _onPositionChanged(double x, double y) {
+    channelManager.sendStatus(x: x, y: y);
+  }
+
+  void _onExpGained(int exp) {
+    var nextExp = manager.me.value.exp + exp;
+    manager.me.value = manager.me.value.copyWith(exp: nextExp);
+    channelManager.sendStatus(exp: exp);
+  }
 }

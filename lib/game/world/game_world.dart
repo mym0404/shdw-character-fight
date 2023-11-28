@@ -22,15 +22,11 @@ class GameWorld extends World with GRef, DisposeBag {
     add(WorldBackground());
     _setUpCam();
 
-    listenValue(manager.channel.players, (players) {
-      for (var MapEntry(value: player) in players.entries) {
-        updateOtherPlayer(player);
-      }
-
+    listenValue(manager.playersIds, (playerIds) {
       // remove player if doesn't exist
       var removedUserIds = <String>{};
       otherPlayers.forEach((key, value) {
-        if (!players.containsKey(key)) {
+        if (!playerIds.contains(key)) {
           removedUserIds.add(key);
         }
       });
@@ -39,10 +35,15 @@ class GameWorld extends World with GRef, DisposeBag {
         otherPlayers[id]?.removeFromParent();
         otherPlayers.remove(id);
       }
-    });
-    listenStream(channelManager.onPlayerPositionChanged, (data) {
-      if (otherPlayers.containsKey(data.userId)) {
-        otherPlayers[data.userId]!.updatePosition(data.x, data.y);
+
+      // add or update player if exist
+      for (var id in playerIds) {
+        PlayerState state = manager.players[id]!.value;
+        if (otherPlayers.containsKey(id)) {
+          _updateOtherPlayer(state);
+        } else {
+          _addOtherPlayer(state);
+        }
       }
     });
   }
@@ -80,7 +81,7 @@ class GameWorld extends World with GRef, DisposeBag {
   }
 
   void addMyPlayer() {
-    myPlayer = Player(key: ComponentKey.named('player'), onPositionChanged: _onMyPlayerPositionChanged)
+    myPlayer = Player(key: ComponentKey.named('player'))
       ..anchor = Anchor.center
       ..x = 100
       ..y = 100;
@@ -92,19 +93,15 @@ class GameWorld extends World with GRef, DisposeBag {
     add(FireVfxEffect()..position = V2(250, 250));
   }
 
-  void _onMyPlayerPositionChanged(double x, double y) {
-    channelManager.sendStatus(x, y, 0);
-  }
-
   void _addOtherPlayer(PlayerState state) {
-    var player = PlayerReadonly(isMe: false)
+    var player = PlayerReadonly(isMe: false, userId: state.id)
       ..anchor = Anchor.center
       ..updateWithPlayerState(state);
     otherPlayers[state.id] = player;
     add(player);
   }
 
-  void updateOtherPlayer(PlayerState state) {
+  void _updateOtherPlayer(PlayerState state) {
     if (otherPlayers[state.id] == null) {
       _addOtherPlayer(state);
     } else {

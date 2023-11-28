@@ -2,20 +2,25 @@ import 'package:flame/layout.dart';
 import 'package:flame_network_assets/flame_network_assets.dart';
 
 import '../../../export.dart';
+import '../../../feature/common/util/dispose_bag.dart';
 import '../../state/player_state.dart';
 import '../weapon/player_weapon.dart';
 import 'player_hud.dart';
 
-class PlayerReadonly extends PositionComponent {
+class PlayerReadonly extends PositionComponent with DisposeBag {
   PlayerReadonly({
     required this.isMe,
+    required this.userId,
   }) : super(
           size: V2.all(Const.playerSize),
         );
 
   final _PlayerBackground bg = _PlayerBackground();
   late final PlayerHud hud = PlayerHud();
+  int exp = 0;
+  int hp = 0;
   bool isMe;
+  String userId;
   Component? thumbnail;
 
   double lerpRate = 10.0;
@@ -26,6 +31,20 @@ class PlayerReadonly extends PositionComponent {
     _initBackground();
     _initHud();
     _initWeapon();
+
+    if (!isMe) {
+      listenValue(manager.players[userId]!, updateWithPlayerState);
+    }
+  }
+
+  void updateWithPlayerState(PlayerState state, {bool updatePosition = true}) {
+    _updateNickname(state.nickname);
+    _updateThumbnail(state.thumbnail);
+    _updateExp(state.exp);
+    _updateHp(state.hp);
+    if (updatePosition) {
+      _updatePosition(state.x, state.y);
+    }
   }
 
   Future<void> _initBackground() async {
@@ -51,24 +70,28 @@ class PlayerReadonly extends PositionComponent {
     super.update(dt);
   }
 
-  void updateWithPlayerState(PlayerState state) {
-    updateNickname(state.nickname);
-    updateThumbnail(state.thumbnail);
-  }
-
-  void updatePosition(double x, double y) {
+  void _updatePosition(double x, double y) {
+    log.i('$x, $y');
     destinationPosition = V2(x, y);
   }
 
-  void updateBackgroundBorderColor(Color color) {
+  void _updateExp(int exp) {
+    this.exp = exp;
+  }
+
+  void _updateHp(int hp) {
+    this.hp = hp;
+  }
+
+  void _updateBackgroundBorderColor(Color color) {
     bg.borderColor = color;
   }
 
-  void updateNickname(String nickname) {
+  void _updateNickname(String nickname) {
     hud.nickname = nickname;
   }
 
-  Future<void> updateThumbnail(String thumbnail) async {
+  Future<void> _updateThumbnail(String thumbnail) async {
     final networkAssets = FlameNetworkImages();
     final playerSprite = await networkAssets.load(thumbnail);
 

@@ -10,6 +10,7 @@ class JewelComponent extends PositionComponent with CollisionCallbacks {
   late JewelHud hud;
   Jewel jewel;
 
+  bool isDestroyed = false;
   int _hp;
 
   int get hp => _hp;
@@ -41,5 +42,22 @@ class JewelComponent extends PositionComponent with CollisionCallbacks {
   void _addHud() {
     hud = JewelHud(jewel: jewel)..position = V2(width / 2, -4);
     add(hud);
+  }
+
+  (bool isDestroyed,) hitByPlayer({required int damage}) {
+    if (isDestroyed) return (false,);
+    hp = max(0, hp - damage);
+    if (hp == 0) {
+      destroy();
+      return (true,);
+    }
+    return (false,);
+  }
+
+  void destroy() {
+    assert(!isDestroyed);
+    isDestroyed = true;
+
+    removeFromParent();
   }
 }

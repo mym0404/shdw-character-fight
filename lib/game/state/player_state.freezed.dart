@@ -25,6 +25,8 @@ mixin _$PlayerState {
   String get thumbnail => throw _privateConstructorUsedError;
   int get exp => throw _privateConstructorUsedError;
   int get hp => throw _privateConstructorUsedError;
+  double get x => throw _privateConstructorUsedError;
+  double get y => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -38,7 +40,14 @@ abstract class $PlayerStateCopyWith<$Res> {
           PlayerState value, $Res Function(PlayerState) then) =
       _$PlayerStateCopyWithImpl<$Res, PlayerState>;
   @useResult
-  $Res call({String id, String nickname, String thumbnail, int exp, int hp});
+  $Res call(
+      {String id,
+      String nickname,
+      String thumbnail,
+      int exp,
+      int hp,
+      double x,
+      double y});
 }
 
 /// @nodoc
@@ -59,6 +68,8 @@ class _$PlayerStateCopyWithImpl<$Res, $Val extends PlayerState>
     Object? thumbnail = null,
     Object? exp = null,
     Object? hp = null,
+    Object? x = null,
+    Object? y = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -81,6 +92,14 @@ class _$PlayerStateCopyWithImpl<$Res, $Val extends PlayerState>
           ? _value.hp
           : hp // ignore: cast_nullable_to_non_nullable
               as int,
+      x: null == x
+          ? _value.x
+          : x // ignore: cast_nullable_to_non_nullable
+              as double,
+      y: null == y
+          ? _value.y
+          : y // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -93,7 +112,14 @@ abstract class _$$PlayerStateImplCopyWith<$Res>
       __$$PlayerStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String nickname, String thumbnail, int exp, int hp});
+  $Res call(
+      {String id,
+      String nickname,
+      String thumbnail,
+      int exp,
+      int hp,
+      double x,
+      double y});
 }
 
 /// @nodoc
@@ -112,6 +138,8 @@ class __$$PlayerStateImplCopyWithImpl<$Res>
     Object? thumbnail = null,
     Object? exp = null,
     Object? hp = null,
+    Object? x = null,
+    Object? y = null,
   }) {
     return _then(_$PlayerStateImpl(
       id: null == id
@@ -134,6 +162,14 @@ class __$$PlayerStateImplCopyWithImpl<$Res>
           ? _value.hp
           : hp // ignore: cast_nullable_to_non_nullable
               as int,
+      x: null == x
+          ? _value.x
+          : x // ignore: cast_nullable_to_non_nullable
+              as double,
+      y: null == y
+          ? _value.y
+          : y // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -146,7 +182,9 @@ class _$PlayerStateImpl extends _PlayerState with DiagnosticableTreeMixin {
       this.nickname = '',
       this.thumbnail = 'https://iili.io/JCm0irv.png',
       this.exp = 0,
-      this.hp = 0})
+      this.hp = 0,
+      this.x = 0.0,
+      this.y = 0.0})
       : super._();
 
   factory _$PlayerStateImpl.fromJson(Map<String, dynamic> json) =>
@@ -166,10 +204,16 @@ class _$PlayerStateImpl extends _PlayerState with DiagnosticableTreeMixin {
   @override
   @JsonKey()
   final int hp;
+  @override
+  @JsonKey()
+  final double x;
+  @override
+  @JsonKey()
+  final double y;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PlayerState(id: $id, nickname: $nickname, thumbnail: $thumbnail, exp: $exp, hp: $hp)';
+    return 'PlayerState(id: $id, nickname: $nickname, thumbnail: $thumbnail, exp: $exp, hp: $hp, x: $x, y: $y)';
   }
 
   @override
@@ -181,7 +225,9 @@ class _$PlayerStateImpl extends _PlayerState with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('nickname', nickname))
       ..add(DiagnosticsProperty('thumbnail', thumbnail))
       ..add(DiagnosticsProperty('exp', exp))
-      ..add(DiagnosticsProperty('hp', hp));
+      ..add(DiagnosticsProperty('hp', hp))
+      ..add(DiagnosticsProperty('x', x))
+      ..add(DiagnosticsProperty('y', y));
   }
 
   @override
@@ -195,13 +241,15 @@ class _$PlayerStateImpl extends _PlayerState with DiagnosticableTreeMixin {
             (identical(other.thumbnail, thumbnail) ||
                 other.thumbnail == thumbnail) &&
             (identical(other.exp, exp) || other.exp == exp) &&
-            (identical(other.hp, hp) || other.hp == hp));
+            (identical(other.hp, hp) || other.hp == hp) &&
+            (identical(other.x, x) || other.x == x) &&
+            (identical(other.y, y) || other.y == y));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, nickname, thumbnail, exp, hp);
+      Object.hash(runtimeType, id, nickname, thumbnail, exp, hp, x, y);
 
   @JsonKey(ignore: true)
   @override
@@ -223,7 +271,9 @@ abstract class _PlayerState extends PlayerState {
       final String nickname,
       final String thumbnail,
       final int exp,
-      final int hp}) = _$PlayerStateImpl;
+      final int hp,
+      final double x,
+      final double y}) = _$PlayerStateImpl;
   const _PlayerState._() : super._();
 
   factory _PlayerState.fromJson(Map<String, dynamic> json) =
@@ -239,6 +289,10 @@ abstract class _PlayerState extends PlayerState {
   int get exp;
   @override
   int get hp;
+  @override
+  double get x;
+  @override
+  double get y;
   @override
   @JsonKey(ignore: true)
   _$$PlayerStateImplCopyWith<_$PlayerStateImpl> get copyWith =>
