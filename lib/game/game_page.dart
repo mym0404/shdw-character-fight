@@ -41,11 +41,11 @@ class _GamePageState extends State<GamePage> {
           game: _game,
           overlayBuilderMap: {
             OverlayId.ready: (context, game) => const GameReadyOverlay(),
-            OverlayId.settings: (context, game) => SettingsOverlay()
+            OverlayId.settings: (context, game) => const SettingsOverlay()
           },
         ),
         if (gameState.isGameStarted) ...[
-          IgnorePointer(
+          const IgnorePointer(
             child: TopRight(
               child: PaddingAll(
                 24,
@@ -53,7 +53,7 @@ class _GamePageState extends State<GamePage> {
               ),
             ),
           ),
-          IgnorePointer(
+          const IgnorePointer(
             child: TopLeft(
               child: PaddingAll(
                 24,

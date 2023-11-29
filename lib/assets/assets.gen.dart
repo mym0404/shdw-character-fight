@@ -9,8 +9,63 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsImagesGen {
+  const $AssetsImagesGen();
+
+  $AssetsImagesEffectGen get effect => const $AssetsImagesEffectGen();
+  $AssetsImagesJewelGen get jewel => const $AssetsImagesJewelGen();
+}
+
+class $AssetsImagesEffectGen {
+  const $AssetsImagesEffectGen();
+
+  $AssetsImagesEffectBullet16Gen get bullet16 =>
+      const $AssetsImagesEffectBullet16Gen();
+}
+
+class $AssetsImagesJewelGen {
+  const $AssetsImagesJewelGen();
+
+  /// File path: assets/images/jewel/jewel_1.png
+  AssetGenImage get jewel1 =>
+      const AssetGenImage('assets/images/jewel/jewel_1.png');
+
+  /// File path: assets/images/jewel/jewel_2.png
+  AssetGenImage get jewel2 =>
+      const AssetGenImage('assets/images/jewel/jewel_2.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [jewel1, jewel2];
+}
+
+class $AssetsImagesEffectBullet16Gen {
+  const $AssetsImagesEffectBullet16Gen();
+
+  /// File path: assets/images/effect/bullet16/green16x16.png
+  AssetGenImage get green16x16 =>
+      const AssetGenImage('assets/images/effect/bullet16/green16x16.png');
+
+  /// File path: assets/images/effect/bullet16/ice16x16.png
+  AssetGenImage get ice16x16 =>
+      const AssetGenImage('assets/images/effect/bullet16/ice16x16.png');
+
+  /// File path: assets/images/effect/bullet16/purple16x16.png
+  AssetGenImage get purple16x16 =>
+      const AssetGenImage('assets/images/effect/bullet16/purple16x16.png');
+
+  /// File path: assets/images/effect/bullet16/red16x16.png
+  AssetGenImage get red16x16 =>
+      const AssetGenImage('assets/images/effect/bullet16/red16x16.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values =>
+      [green16x16, ice16x16, purple16x16, red16x16];
+}
+
 class Assets {
   Assets._();
+
+  static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 
 class AssetGenImage {

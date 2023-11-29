@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_web_libraries_in_flutter
+
 import 'dart:html' as html;
 
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -18,6 +20,7 @@ enum ChannelState {
 
 class ChannelManager {
   ChannelManager() {
+    if (kDebugMode) return;
     _init();
   }
 
@@ -30,7 +33,6 @@ class ChannelManager {
   PublishSubject<PlayerStatus> onPlayerStatusChanged = PublishSubject();
 
   Future<void> _init() async {
-    // if (kDebugMode) return;
     _subscribeEvents();
 
     html.window.addEventListener('beforeunload', (e) async {

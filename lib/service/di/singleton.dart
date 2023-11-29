@@ -5,10 +5,13 @@ import 'package:supabase_flutter/supabase_flutter.dart' hide LocalStorage;
 import '../../export.dart';
 import '../../game/socket/channel_manager.dart';
 import '../../game/state/game_manager.dart';
+import '../../game/util/user_thumbnail_util.dart';
 import '../l10n/util/l10n_manager.dart';
 import '../layout/layout_manager.dart';
 
 Future<void> registerSingletons() async {
+  di.registerSingleton(UserThumbnailUtil());
+
   var sharedPreferences = await SharedPreferences.getInstance();
   registerGlobalStorage(SharedPreferencesStorage(sharedPreferences: sharedPreferences));
   di.registerSingleton<LocalStorage>(SharedPreferencesLocalStorage(sharedPreferences));

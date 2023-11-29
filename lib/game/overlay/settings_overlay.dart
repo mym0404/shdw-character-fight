@@ -35,7 +35,7 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Expanded(
+                    const Expanded(
                       child: Text(
                         '설정',
                         style: TS.titleLarge,
@@ -49,7 +49,7 @@ class _SettingsOverlayState extends State<SettingsOverlay> {
                         icon: Icon(MdiIcons.close)),
                   ],
                 ),
-                Gap(24),
+                const Gap(24),
               ],
             ),
           ),

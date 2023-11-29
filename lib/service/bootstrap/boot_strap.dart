@@ -2,7 +2,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../export.dart';
-import '../../feature/common/widget/app_scroll_behavior.dart';
 import '../l10n/util/l10n_manager.dart';
 import '../router/app_router.dart';
 

@@ -2,12 +2,19 @@ import 'package:uuid/uuid.dart';
 
 import '../../export.dart';
 import '../util/level_manager.dart';
+import '../util/user_thumbnail_util.dart';
 import 'game_state.dart';
 import 'player_state.dart';
 
 class GameManager {
   VAL<GameState> state = VAL(const GameState());
-  VAL<PlayerState> me = VAL(PlayerState(id: const Uuid().v4(), hp: LevelManager.hpForEachLevel[0]));
+  VAL<PlayerState> me = VAL(
+    PlayerState(
+      id: const Uuid().v4(),
+      hp: LevelManager.hpForEachLevel[0],
+      thumbnail: di<UserThumbnailUtil>().getRandomThumbnail(),
+    ),
+  );
   Map<String, VAL<PlayerState>> players = {};
   VAL<Set<String>> playersIds = VAL({});
 

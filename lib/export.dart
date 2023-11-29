@@ -2,7 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'feature/common/widget/SimpleStreamBuilder.dart';
+import 'feature/common/widget/simple_stream_builder.dart';
 import 'game/main_game.dart';
 
 export 'dart:async' hide Timer;

@@ -9,7 +9,7 @@ class PlayerState with _$PlayerState {
   const factory PlayerState({
     required String id,
     @Default('') String nickname,
-    @Default('https://iili.io/JCm0irv.png') String thumbnail,
+    required String thumbnail,
     @Default(0) int exp,
     @Default(0) int hp,
     @Default(0.0) double x,

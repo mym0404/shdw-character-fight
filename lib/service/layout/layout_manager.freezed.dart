@@ -61,13 +61,13 @@ class _$LayoutDataCopyWithImpl<$Res, $Val extends LayoutData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? size = freezed,
+    Object? size = null,
     Object? padding = null,
     Object? viewPadding = null,
     Object? viewInsets = null,
   }) {
     return _then(_value.copyWith(
-      size: freezed == size
+      size: null == size
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
               as Size,
@@ -113,13 +113,13 @@ class __$$LayoutDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? size = freezed,
+    Object? size = null,
     Object? padding = null,
     Object? viewPadding = null,
     Object? viewInsets = null,
   }) {
     return _then(_$LayoutDataImpl(
-      size: freezed == size
+      size: null == size
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
               as Size,
@@ -190,7 +190,7 @@ class _$LayoutDataImpl extends _LayoutData with DiagnosticableTreeMixin {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LayoutDataImpl &&
-            const DeepCollectionEquality().equals(other.size, size) &&
+            (identical(other.size, size) || other.size == size) &&
             (identical(other.padding, padding) || other.padding == padding) &&
             (identical(other.viewPadding, viewPadding) ||
                 other.viewPadding == viewPadding) &&
@@ -200,12 +200,8 @@ class _$LayoutDataImpl extends _LayoutData with DiagnosticableTreeMixin {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(size),
-      padding,
-      viewPadding,
-      viewInsets);
+  int get hashCode =>
+      Object.hash(runtimeType, size, padding, viewPadding, viewInsets);
 
   @JsonKey(ignore: true)
   @override
