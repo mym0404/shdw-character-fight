@@ -23,7 +23,7 @@ enum ChannelState {
 
 class ChannelManager {
   ChannelManager() {
-    // if (kDebugMode) return;
+    if (kDebugMode) return;
     _init();
   }
 

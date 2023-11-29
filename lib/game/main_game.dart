@@ -1,4 +1,3 @@
-import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 
 import '../export.dart';
@@ -7,7 +6,7 @@ import 'state/game_manager.dart';
 import 'state/game_state.dart';
 import 'world/game_world.dart';
 
-class MainGame extends FlameGame with MouseMovementDetector, HasCollisionDetection {
+class MainGame extends FlameGame with HasCollisionDetection {
   late CameraComponent cam;
 
   GameManager get gameManager => di<GameManager>();
@@ -36,10 +35,5 @@ class MainGame extends FlameGame with MouseMovementDetector, HasCollisionDetecti
     world = GameWorld();
     cam.world = world;
     addAll([world, cam]);
-  }
-
-  @override
-  void onMouseMove(PointerHoverInfo info) {
-    gameWorld.onMouseMove(info);
   }
 }

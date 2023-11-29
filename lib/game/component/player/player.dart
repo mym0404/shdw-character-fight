@@ -12,7 +12,7 @@ class Player extends PositionComponent with GRef, DisposeBag {
     super.key,
   });
 
-  double maxSpeed = 250;
+  double speed = 200;
   V2 velocity = V2.zero();
 
   final PlayerReadonly innerPlayer = PlayerReadonly(initialPlayerState: manager.me.value);
@@ -36,9 +36,8 @@ class Player extends PositionComponent with GRef, DisposeBag {
     });
   }
 
-  void moveWithMousePosition(PointerHoverInfo info) {
-    var worldPosition = game.cam.globalToLocal(info.eventPosition.widget);
-    lastMovementPosition = worldPosition;
+  void moveWithTapDown(TapDownEvent event) {
+    lastMovementPosition = event.localPosition;
   }
 
   @override
@@ -57,10 +56,13 @@ class Player extends PositionComponent with GRef, DisposeBag {
 
   void _calculateVelocity() {
     var radians = V2(1, 0).angleToSigned(lastMovementPosition - position);
-    var speed = lastMovementPosition.distanceTo(position).clamp(0, maxSpeed);
 
     velocity.x = cos(radians) * speed;
     velocity.y = sin(radians) * speed;
+
+    if (lastMovementPosition.distanceTo(position) <= 10) {
+      velocity = V2.zero();
+    }
   }
 
   void _updatePosition(double dt) {
@@ -99,11 +101,14 @@ class Player extends PositionComponent with GRef, DisposeBag {
           ..position =
               intersectionPoints.first + V2(Random().nextDouble() * 30 - 15, Random().nextDouble() * 30 - 15),
       );
-      var isDead = playerState.hp <= 1;
+
+      var nextHp = max(0, playerState.hp - 1);
+      var isDead = nextHp == 0;
+      manager.updateOtherPlayer(playerState.copyWith(hp: nextHp));
       if (isDead) {
         channelManager.sendPlayerDead(id: playerState.id);
       } else {
-        channelManager.sendStatus(id: playerState.id, hp: max(0, playerState.hp - 1));
+        channelManager.sendStatus(id: playerState.id, hp: nextHp);
       }
     }
   }

@@ -28,7 +28,7 @@ class PlayerReadonly extends PositionComponent with DisposeBag, CollisionCallbac
   String userId;
   Component? thumbnail;
 
-  double lerpRate = 10.0;
+  double lerpRate = 50.0;
   V2 destinationPosition = V2.zero();
 
   @override

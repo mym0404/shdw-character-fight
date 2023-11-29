@@ -11,7 +11,7 @@ import '../component/vfx/vfx_effect.dart';
 import '../state/player_state.dart';
 import 'world_background.dart';
 
-class GameWorld extends World with GRef, DisposeBag {
+class GameWorld extends World with GRef, DisposeBag, TapCallbacks {
   double accumulatedTime = 0;
 
   Player? myPlayer;
@@ -75,11 +75,6 @@ class GameWorld extends World with GRef, DisposeBag {
     game.cam.viewfinder.position = myPlayer!.position - game.size / 2;
   }
 
-  void onMouseMove(PointerHoverInfo info) {
-    if (myPlayer == null) return;
-    myPlayer?.moveWithMousePosition(info);
-  }
-
   void addMyPlayer() {
     myPlayer = Player(key: ComponentKey.named('player'))
       ..anchor = Anchor.center
@@ -107,5 +102,10 @@ class GameWorld extends World with GRef, DisposeBag {
     } else {
       otherPlayers[state.id]!.updateWithPlayerState(state);
     }
+  }
+
+  @override
+  void onTapDown(TapDownEvent event) {
+    myPlayer?.moveWithTapDown(event);
   }
 }

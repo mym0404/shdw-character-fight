@@ -11,7 +11,7 @@ class PlayerWeapon extends PositionComponent {
 
   List<Weapon> weapons = [];
 
-  int weaponCount = 2;
+  int weaponCount = 1;
   int weaponMoveDistance = 100;
 
   bool isMe;
@@ -22,7 +22,7 @@ class PlayerWeapon extends PositionComponent {
     add(
       RotateEffect.by(
         2 * pi,
-        InfiniteEffectController(EffectController(duration: 0.5, curve: Curves.linear)),
+        InfiniteEffectController(EffectController(duration: 0.6, curve: Curves.linear)),
       ),
     );
   }
