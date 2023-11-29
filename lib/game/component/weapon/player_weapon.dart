@@ -12,7 +12,7 @@ class PlayerWeapon extends PositionComponent {
   List<Weapon> weapons = [];
 
   int weaponCount = 2;
-  int weaponMoveDistancPe = 100;
+  int weaponMoveDistance = 100;
 
   bool isMe;
 
