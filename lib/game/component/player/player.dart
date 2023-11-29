@@ -15,7 +15,7 @@ class Player extends PositionComponent with GRef, DisposeBag {
   double maxSpeed = 250;
   V2 velocity = V2.zero();
 
-  final PlayerReadonly innerPlayer = PlayerReadonly(isMe: true, userId: manager.me.value.id);
+  final PlayerReadonly innerPlayer = PlayerReadonly(initialPlayerState: manager.me.value);
 
   double accDelta = 0;
   V2 lastMovementPosition = V2.zero();
@@ -49,7 +49,7 @@ class Player extends PositionComponent with GRef, DisposeBag {
     _updatePosition(dt);
 
     // send position information to channel
-    if (accDelta >= (kDebugMode ? 5.0 : 0.1)) {
+    if (accDelta >= (kDebugMode ? 0.1 : 0.1)) {
       _onPositionChanged(x, y);
       accDelta = 0;
     }
@@ -74,6 +74,9 @@ class Player extends PositionComponent with GRef, DisposeBag {
   void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is JewelComponent) {
       _hitJewel(intersectionPoints, other);
+    } else if (other is PlayerReadonly) {
+      assert(other.userId != manager.me.value.id);
+      _hitOtherPlayer(intersectionPoints, other);
     }
   }
 
@@ -85,6 +88,24 @@ class Player extends PositionComponent with GRef, DisposeBag {
 
     if (isDestoryed) {
       _onExpGained(jewel.jewel.exp);
+    }
+  }
+
+  void _hitOtherPlayer(Set<Vector2> intersectionPoints, PlayerReadonly otherPlayer) {
+    log.i('hit, ${otherPlayer.userId}');
+
+    var playerState = manager.players[otherPlayer.userId]!.value;
+    if (playerState.hp > 0) {
+      game.gameWorld.add(
+        FireVfxEffect()
+          ..position =
+              intersectionPoints.first + V2(Random().nextDouble() * 30 - 15, Random().nextDouble() * 30 - 15),
+      );
+      var isDead = playerState.hp <= 1;
+      channelManager.sendStatus(id: playerState.id, hp: max(0, playerState.hp - 1));
+      if (isDead) {
+        channelManager.sendPlayerDead(id: playerState.id);
+      }
     }
   }
 

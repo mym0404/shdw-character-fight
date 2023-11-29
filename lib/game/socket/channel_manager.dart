@@ -5,11 +5,13 @@ import 'dart:html' as html;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../export.dart';
-import '../schema/player_status.dart';
+import '../schema/player_dead_dto.dart';
+import '../schema/player_status_dto.dart';
 import '../state/player_state.dart';
 
 enum GameEvent {
   playerStatus,
+  playerDead,
 }
 
 enum ChannelState {
@@ -20,7 +22,7 @@ enum ChannelState {
 
 class ChannelManager {
   ChannelManager() {
-    if (kDebugMode) return;
+    // if (kDebugMode) return;
     _init();
   }
 
@@ -30,7 +32,8 @@ class ChannelManager {
 
   bool get _isSubscribed => _channelState == ChannelState.subscribed;
 
-  PublishSubject<PlayerStatus> onPlayerStatusChanged = PublishSubject();
+  PublishSubject<PlayerStatusDto> onPlayerStatusChanged = PublishSubject();
+  PublishSubject<PlayerDeadDto> onPlayerDead = PublishSubject();
 
   Future<void> _init() async {
     _subscribeEvents();
@@ -44,15 +47,25 @@ class ChannelManager {
     // Sync Player States
     _channel.on(RealtimeListenTypes.presence, ChannelFilter(event: 'sync'), (payload, [ref]) {
       _onPresenceSync();
-    }).on(RealtimeListenTypes.presence, ChannelFilter(event: 'leave'), (payload, [ref]) {
-      log.i('leave $payload $ref');
+    });
+
+    _channel.on(RealtimeListenTypes.presence, ChannelFilter(event: 'leave'), (payload, [ref]) {
       _onPresenceSync(leaveRef: ref);
-    }).on(RealtimeListenTypes.broadcast, ChannelFilter(event: GameEvent.playerStatus.name), (payload, [_]) {
-      var data = PlayerStatus.fromJson(payload['data']);
-      if (data.userId != manager.me.value.id) {
-        onPlayerStatusChanged.add(data);
-      }
-    }).subscribe(
+    });
+
+    _channel.on(RealtimeListenTypes.broadcast, ChannelFilter(event: GameEvent.playerStatus.name), (payload,
+        [_]) {
+      var data = PlayerStatusDto.fromJson(payload['data']);
+      onPlayerStatusChanged.add(data);
+    });
+
+    _channel.on(RealtimeListenTypes.broadcast, ChannelFilter(event: GameEvent.playerDead.name), (payload,
+        [_]) {
+      var data = PlayerDeadDto.fromJson(payload['data']);
+      onPlayerDead.add(data);
+    });
+
+    _channel.subscribe(
       (status, [error]) {
         switch (status) {
           case 'SUBSCRIBED':
@@ -69,7 +82,6 @@ class ChannelManager {
   }
 
   void _onPresenceSync({String? leaveRef}) {
-    log.i('_onPresenceSync $leaveRef');
     Map<String, List<Presence>> presenceState = _channel.presenceState() as Map<String, List<Presence>>;
 
     var players = presenceState.values
@@ -87,9 +99,9 @@ class ChannelManager {
         })
         .whereNotNull()
         .toList();
-    log.i(players);
+    log.i('_onPresenceSync, $players');
 
-    manager.setPlayers(players);
+    manager.setOtherPlayers(players);
   }
 
   Future<void> _onSubscribed() async {}
@@ -98,10 +110,17 @@ class ChannelManager {
     return _sendPresence(player.toJson());
   }
 
-  Future<ChannelResponse?> sendStatus({double x = -1, double y = -1, int exp = -1, int hp = -1}) {
+  Future<ChannelResponse?> sendStatus({String? id, double x = -1, double y = -1, int exp = -1, int hp = -1}) {
     return _sendBroadcast(
       GameEvent.playerStatus,
-      PlayerStatus(userId: manager.me.value.id, x: x, y: y, exp: exp, hp: hp).toJson(),
+      PlayerStatusDto(userId: id ?? manager.me.value.id, x: x, y: y, exp: exp, hp: hp).toJson(),
+    );
+  }
+
+  Future<ChannelResponse?> sendPlayerDead({required String id}) {
+    return _sendBroadcast(
+      GameEvent.playerDead,
+      PlayerDeadDto(id: id).toJson(),
     );
   }
 

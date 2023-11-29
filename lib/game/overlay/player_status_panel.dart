@@ -11,6 +11,7 @@ class PlayerStatusPanel extends StatelessWidget with WatchItMixin {
   @override
   Widget build(BuildContext context) {
     var me = watchValue((GameManager e) => e.me);
+    log.i(me);
 
     return SizedBox(
       width: 200,
@@ -43,9 +44,13 @@ class PlayerStatusPanel extends StatelessWidget with WatchItMixin {
                 height: 8,
                 color: Colors.grey,
                 padding: const EdgeInsets.all(1),
-                child: FractionallySizedBox(
+                child: CenterLeft(
+                  child: AnimatedFractionallySizedBox(
+                    duration: 500.ms,
                     widthFactor: me.hp / LevelManager.maxHpByExp(me.exp),
-                    child: Container(decoration: const BoxDecoration(color: Colors.redAccent))),
+                    child: Container(decoration: const BoxDecoration(color: Colors.redAccent)),
+                  ),
+                ),
               ),
             ),
             const Gap(12),
@@ -55,16 +60,21 @@ class PlayerStatusPanel extends StatelessWidget with WatchItMixin {
               const Text('EXP (MAX)')
             else
               Text(
-                  'EXP (${LevelManager.expInCurrentLevel(me.exp)}/${LevelManager.nextLevelRequiredExp(me.exp)})'),
+                'EXP (${LevelManager.expInCurrentLevel(me.exp)}/${LevelManager.nextLevelRequiredExp(me.exp)})',
+              ),
             const Gap(4),
             FullWidth(
               child: Container(
                 height: 8,
                 color: Colors.grey,
                 padding: const EdgeInsets.all(1),
-                child: FractionallySizedBox(
+                child: CenterLeft(
+                  child: AnimatedFractionallySizedBox(
+                    duration: 500.ms,
                     widthFactor: me.exp / LevelManager.nextLevelRequiredExp(me.exp),
-                    child: Container(decoration: const BoxDecoration(color: Colors.amber))),
+                    child: Container(decoration: const BoxDecoration(color: Colors.amber)),
+                  ),
+                ),
               ),
             ),
           ],

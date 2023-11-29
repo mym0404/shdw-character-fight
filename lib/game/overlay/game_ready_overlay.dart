@@ -48,7 +48,7 @@ class _GameReadyOverlayState extends State<GameReadyOverlay> {
                 ClipRRect(
                   borderRadius: 999.bRadius,
                   child: CachedNetworkImage(
-                      imageUrl: 'https://iili.io/JCm0irv.png', width: 120, height: 120, fit: BoxFit.cover),
+                      imageUrl: manager.me.value.thumbnail, width: 120, height: 120, fit: BoxFit.cover),
                 ),
                 const Gap(12),
                 TextButton.icon(onPressed: null, icon: Icon(MdiIcons.refresh), label: const Text('다시 생성하기')),

@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'player_status.dart';
+part of 'player_status_dto.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-PlayerStatus _$PlayerStatusFromJson(Map<String, dynamic> json) {
-  return _PlayerStatus.fromJson(json);
+PlayerStatusDto _$PlayerStatusDtoFromJson(Map<String, dynamic> json) {
+  return _PlayerStatusDto.fromJson(json);
 }
 
 /// @nodoc
-mixin _$PlayerStatus {
+mixin _$PlayerStatusDto {
   String get userId => throw _privateConstructorUsedError;
   double get x => throw _privateConstructorUsedError;
   double get y => throw _privateConstructorUsedError;
@@ -28,23 +28,23 @@ mixin _$PlayerStatus {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $PlayerStatusCopyWith<PlayerStatus> get copyWith =>
+  $PlayerStatusDtoCopyWith<PlayerStatusDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PlayerStatusCopyWith<$Res> {
-  factory $PlayerStatusCopyWith(
-          PlayerStatus value, $Res Function(PlayerStatus) then) =
-      _$PlayerStatusCopyWithImpl<$Res, PlayerStatus>;
+abstract class $PlayerStatusDtoCopyWith<$Res> {
+  factory $PlayerStatusDtoCopyWith(
+          PlayerStatusDto value, $Res Function(PlayerStatusDto) then) =
+      _$PlayerStatusDtoCopyWithImpl<$Res, PlayerStatusDto>;
   @useResult
   $Res call({String userId, double x, double y, int exp, int hp});
 }
 
 /// @nodoc
-class _$PlayerStatusCopyWithImpl<$Res, $Val extends PlayerStatus>
-    implements $PlayerStatusCopyWith<$Res> {
-  _$PlayerStatusCopyWithImpl(this._value, this._then);
+class _$PlayerStatusDtoCopyWithImpl<$Res, $Val extends PlayerStatusDto>
+    implements $PlayerStatusDtoCopyWith<$Res> {
+  _$PlayerStatusDtoCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -86,22 +86,22 @@ class _$PlayerStatusCopyWithImpl<$Res, $Val extends PlayerStatus>
 }
 
 /// @nodoc
-abstract class _$$PlayerStatusImplCopyWith<$Res>
-    implements $PlayerStatusCopyWith<$Res> {
-  factory _$$PlayerStatusImplCopyWith(
-          _$PlayerStatusImpl value, $Res Function(_$PlayerStatusImpl) then) =
-      __$$PlayerStatusImplCopyWithImpl<$Res>;
+abstract class _$$PlayerStatusDtoImplCopyWith<$Res>
+    implements $PlayerStatusDtoCopyWith<$Res> {
+  factory _$$PlayerStatusDtoImplCopyWith(_$PlayerStatusDtoImpl value,
+          $Res Function(_$PlayerStatusDtoImpl) then) =
+      __$$PlayerStatusDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String userId, double x, double y, int exp, int hp});
 }
 
 /// @nodoc
-class __$$PlayerStatusImplCopyWithImpl<$Res>
-    extends _$PlayerStatusCopyWithImpl<$Res, _$PlayerStatusImpl>
-    implements _$$PlayerStatusImplCopyWith<$Res> {
-  __$$PlayerStatusImplCopyWithImpl(
-      _$PlayerStatusImpl _value, $Res Function(_$PlayerStatusImpl) _then)
+class __$$PlayerStatusDtoImplCopyWithImpl<$Res>
+    extends _$PlayerStatusDtoCopyWithImpl<$Res, _$PlayerStatusDtoImpl>
+    implements _$$PlayerStatusDtoImplCopyWith<$Res> {
+  __$$PlayerStatusDtoImplCopyWithImpl(
+      _$PlayerStatusDtoImpl _value, $Res Function(_$PlayerStatusDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -113,7 +113,7 @@ class __$$PlayerStatusImplCopyWithImpl<$Res>
     Object? exp = null,
     Object? hp = null,
   }) {
-    return _then(_$PlayerStatusImpl(
+    return _then(_$PlayerStatusDtoImpl(
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -140,8 +140,9 @@ class __$$PlayerStatusImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$PlayerStatusImpl extends _PlayerStatus with DiagnosticableTreeMixin {
-  const _$PlayerStatusImpl(
+class _$PlayerStatusDtoImpl extends _PlayerStatusDto
+    with DiagnosticableTreeMixin {
+  const _$PlayerStatusDtoImpl(
       {required this.userId,
       required this.x,
       required this.y,
@@ -149,8 +150,8 @@ class _$PlayerStatusImpl extends _PlayerStatus with DiagnosticableTreeMixin {
       required this.hp})
       : super._();
 
-  factory _$PlayerStatusImpl.fromJson(Map<String, dynamic> json) =>
-      _$$PlayerStatusImplFromJson(json);
+  factory _$PlayerStatusDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PlayerStatusDtoImplFromJson(json);
 
   @override
   final String userId;
@@ -165,14 +166,14 @@ class _$PlayerStatusImpl extends _PlayerStatus with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PlayerStatus(userId: $userId, x: $x, y: $y, exp: $exp, hp: $hp)';
+    return 'PlayerStatusDto(userId: $userId, x: $x, y: $y, exp: $exp, hp: $hp)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'PlayerStatus'))
+      ..add(DiagnosticsProperty('type', 'PlayerStatusDto'))
       ..add(DiagnosticsProperty('userId', userId))
       ..add(DiagnosticsProperty('x', x))
       ..add(DiagnosticsProperty('y', y))
@@ -184,7 +185,7 @@ class _$PlayerStatusImpl extends _PlayerStatus with DiagnosticableTreeMixin {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PlayerStatusImpl &&
+            other is _$PlayerStatusDtoImpl &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.x, x) || other.x == x) &&
             (identical(other.y, y) || other.y == y) &&
@@ -199,28 +200,29 @@ class _$PlayerStatusImpl extends _PlayerStatus with DiagnosticableTreeMixin {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$PlayerStatusImplCopyWith<_$PlayerStatusImpl> get copyWith =>
-      __$$PlayerStatusImplCopyWithImpl<_$PlayerStatusImpl>(this, _$identity);
+  _$$PlayerStatusDtoImplCopyWith<_$PlayerStatusDtoImpl> get copyWith =>
+      __$$PlayerStatusDtoImplCopyWithImpl<_$PlayerStatusDtoImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PlayerStatusImplToJson(
+    return _$$PlayerStatusDtoImplToJson(
       this,
     );
   }
 }
 
-abstract class _PlayerStatus extends PlayerStatus {
-  const factory _PlayerStatus(
+abstract class _PlayerStatusDto extends PlayerStatusDto {
+  const factory _PlayerStatusDto(
       {required final String userId,
       required final double x,
       required final double y,
       required final int exp,
-      required final int hp}) = _$PlayerStatusImpl;
-  const _PlayerStatus._() : super._();
+      required final int hp}) = _$PlayerStatusDtoImpl;
+  const _PlayerStatusDto._() : super._();
 
-  factory _PlayerStatus.fromJson(Map<String, dynamic> json) =
-      _$PlayerStatusImpl.fromJson;
+  factory _PlayerStatusDto.fromJson(Map<String, dynamic> json) =
+      _$PlayerStatusDtoImpl.fromJson;
 
   @override
   String get userId;
@@ -234,6 +236,6 @@ abstract class _PlayerStatus extends PlayerStatus {
   int get hp;
   @override
   @JsonKey(ignore: true)
-  _$$PlayerStatusImplCopyWith<_$PlayerStatusImpl> get copyWith =>
+  _$$PlayerStatusDtoImplCopyWith<_$PlayerStatusDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

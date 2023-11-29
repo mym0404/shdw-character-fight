@@ -94,7 +94,7 @@ class GameWorld extends World with GRef, DisposeBag {
   }
 
   void _addOtherPlayer(PlayerState state) {
-    var player = PlayerReadonly(isMe: false, userId: state.id)
+    var player = PlayerReadonly(initialPlayerState: state)
       ..anchor = Anchor.center
       ..updateWithPlayerState(state);
     otherPlayers[state.id] = player;

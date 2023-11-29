@@ -11,8 +11,8 @@ _$PlayerStateImpl _$$PlayerStateImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       nickname: json['nickname'] as String? ?? '',
       thumbnail: json['thumbnail'] as String,
-      exp: json['exp'] as int? ?? 0,
-      hp: json['hp'] as int? ?? 0,
+      exp: json['exp'] as int,
+      hp: json['hp'] as int,
       x: (json['x'] as num?)?.toDouble() ?? 0.0,
       y: (json['y'] as num?)?.toDouble() ?? 0.0,
     );

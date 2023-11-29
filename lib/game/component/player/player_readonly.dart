@@ -1,3 +1,4 @@
+import 'package:flame/collisions.dart';
 import 'package:flame/layout.dart';
 import 'package:flame_network_assets/flame_network_assets.dart';
 
@@ -7,18 +8,22 @@ import '../../state/player_state.dart';
 import '../weapon/player_weapon.dart';
 import 'player_hud.dart';
 
-class PlayerReadonly extends PositionComponent with DisposeBag {
+class PlayerReadonly extends PositionComponent with DisposeBag, CollisionCallbacks {
   PlayerReadonly({
-    required this.isMe,
-    required this.userId,
-  }) : super(
+    required PlayerState initialPlayerState,
+  })  : isMe = initialPlayerState.id == manager.me.value.id,
+        userId = initialPlayerState.id,
+        hud = PlayerHud(initialPlayerState: initialPlayerState),
+        super(
           size: V2.all(Const.playerSize),
         );
 
   final _PlayerBackground bg = _PlayerBackground();
-  late final PlayerHud hud = PlayerHud();
-  int exp = 0;
-  int hp = 0;
+  final PlayerHud hud;
+
+  int get exp => isMe ? manager.me.value.exp : manager.players[userId]!.value.exp;
+  int get hp => isMe ? manager.me.value.hp : manager.players[userId]!.value.hp;
+
   bool isMe;
   String userId;
   Component? thumbnail;
@@ -34,6 +39,7 @@ class PlayerReadonly extends PositionComponent with DisposeBag {
 
     if (!isMe) {
       listenValue(manager.players[userId]!, updateWithPlayerState);
+      add(CircleHitbox()..collisionType = CollisionType.passive);
     }
   }
 
@@ -76,11 +82,11 @@ class PlayerReadonly extends PositionComponent with DisposeBag {
   }
 
   void _updateExp(int exp) {
-    this.exp = exp;
+    // todo
   }
 
   void _updateHp(int hp) {
-    this.hp = hp;
+    hud.hp = hp;
   }
 
   void _updateBackgroundBorderColor(Color color) {

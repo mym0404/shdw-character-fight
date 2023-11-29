@@ -181,8 +181,8 @@ class _$PlayerStateImpl extends _PlayerState with DiagnosticableTreeMixin {
       {required this.id,
       this.nickname = '',
       required this.thumbnail,
-      this.exp = 0,
-      this.hp = 0,
+      required this.exp,
+      required this.hp,
       this.x = 0.0,
       this.y = 0.0})
       : super._();
@@ -198,10 +198,8 @@ class _$PlayerStateImpl extends _PlayerState with DiagnosticableTreeMixin {
   @override
   final String thumbnail;
   @override
-  @JsonKey()
   final int exp;
   @override
-  @JsonKey()
   final int hp;
   @override
   @JsonKey()
@@ -269,8 +267,8 @@ abstract class _PlayerState extends PlayerState {
       {required final String id,
       final String nickname,
       required final String thumbnail,
-      final int exp,
-      final int hp,
+      required final int exp,
+      required final int hp,
       final double x,
       final double y}) = _$PlayerStateImpl;
   const _PlayerState._() : super._();
