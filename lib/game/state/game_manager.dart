@@ -49,6 +49,7 @@ class GameManager {
     });
 
     channelManager.onPlayerDead.listen((value) {
+      log.i(4);
       if (value.id == manager.me.value.id) {
         endGame();
       } else {}

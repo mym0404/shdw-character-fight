@@ -11,7 +11,6 @@ class PlayerStatusPanel extends StatelessWidget with WatchItMixin {
   @override
   Widget build(BuildContext context) {
     var me = watchValue((GameManager e) => e.me);
-    log.i(me);
 
     return SizedBox(
       width: 200,

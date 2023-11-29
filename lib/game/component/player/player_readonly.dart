@@ -77,7 +77,6 @@ class PlayerReadonly extends PositionComponent with DisposeBag, CollisionCallbac
   }
 
   void _updatePosition(double x, double y) {
-    log.i('$x, $y');
     destinationPosition = V2(x, y);
   }
 

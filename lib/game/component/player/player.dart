@@ -92,19 +92,18 @@ class Player extends PositionComponent with GRef, DisposeBag {
   }
 
   void _hitOtherPlayer(Set<Vector2> intersectionPoints, PlayerReadonly otherPlayer) {
-    log.i('hit, ${otherPlayer.userId}');
-
     var playerState = manager.players[otherPlayer.userId]!.value;
-    if (playerState.hp > 0) {
+    if (playerState.hp >= 1) {
       game.gameWorld.add(
         FireVfxEffect()
           ..position =
               intersectionPoints.first + V2(Random().nextDouble() * 30 - 15, Random().nextDouble() * 30 - 15),
       );
       var isDead = playerState.hp <= 1;
-      channelManager.sendStatus(id: playerState.id, hp: max(0, playerState.hp - 1));
       if (isDead) {
         channelManager.sendPlayerDead(id: playerState.id);
+      } else {
+        channelManager.sendStatus(id: playerState.id, hp: max(0, playerState.hp - 1));
       }
     }
   }

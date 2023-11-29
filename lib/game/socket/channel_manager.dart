@@ -5,6 +5,7 @@ import 'dart:html' as html;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../export.dart';
+import '../schema/broadcast_dto.dart';
 import '../schema/player_dead_dto.dart';
 import '../schema/player_status_dto.dart';
 import '../state/player_state.dart';
@@ -47,25 +48,20 @@ class ChannelManager {
     // Sync Player States
     _channel.on(RealtimeListenTypes.presence, ChannelFilter(event: 'sync'), (payload, [ref]) {
       _onPresenceSync();
-    });
-
-    _channel.on(RealtimeListenTypes.presence, ChannelFilter(event: 'leave'), (payload, [ref]) {
+    }).on(RealtimeListenTypes.presence, ChannelFilter(event: 'leave'), (payload, [ref]) {
       _onPresenceSync(leaveRef: ref);
-    });
+    }).on(RealtimeListenTypes.broadcast, ChannelFilter(event: 'common'), (payload, [_]) {
+      var data = BroadcastDto.fromJson(payload['data']);
 
-    _channel.on(RealtimeListenTypes.broadcast, ChannelFilter(event: GameEvent.playerStatus.name), (payload,
-        [_]) {
-      var data = PlayerStatusDto.fromJson(payload['data']);
-      onPlayerStatusChanged.add(data);
-    });
-
-    _channel.on(RealtimeListenTypes.broadcast, ChannelFilter(event: GameEvent.playerDead.name), (payload,
-        [_]) {
-      var data = PlayerDeadDto.fromJson(payload['data']);
-      onPlayerDead.add(data);
-    });
-
-    _channel.subscribe(
+      switch (data.event) {
+        case GameEvent.playerStatus:
+          var payload = PlayerStatusDto.fromJson(data.payload!);
+          onPlayerStatusChanged.add(payload);
+        case GameEvent.playerDead:
+          var payload = PlayerDeadDto.fromJson(data.payload!);
+          onPlayerDead.add(payload);
+      }
+    }).subscribe(
       (status, [error]) {
         switch (status) {
           case 'SUBSCRIBED':
@@ -110,18 +106,19 @@ class ChannelManager {
     return _sendPresence(player.toJson());
   }
 
-  Future<ChannelResponse?> sendStatus({String? id, double x = -1, double y = -1, int exp = -1, int hp = -1}) {
+  Future<ChannelResponse?> sendStatus(
+      {String? id, double x = -1, double y = -1, int exp = -1, int hp = -1}) async {
     return _sendBroadcast(
       GameEvent.playerStatus,
       PlayerStatusDto(userId: id ?? manager.me.value.id, x: x, y: y, exp: exp, hp: hp).toJson(),
     );
   }
 
-  Future<ChannelResponse?> sendPlayerDead({required String id}) {
-    return _sendBroadcast(
+  Future<ChannelResponse?> sendPlayerDead({required String id}) async {
+    log.i(await _sendBroadcast(
       GameEvent.playerDead,
       PlayerDeadDto(id: id).toJson(),
-    );
+    ));
   }
 
   Future<ChannelResponse?> _sendPresence(dynamic data) async {
@@ -129,12 +126,12 @@ class ChannelManager {
     return _channel.track({'data': data});
   }
 
-  Future<ChannelResponse?> _sendBroadcast(GameEvent event, dynamic data) async {
+  Future<ChannelResponse?> _sendBroadcast(GameEvent event, Json data) async {
     if (!_isSubscribed) return null;
     return _channel.send(
       type: RealtimeListenTypes.broadcast,
-      event: event.name,
-      payload: {'data': data},
+      event: 'common',
+      payload: {'data': BroadcastDto(event, data).toJson()},
     );
   }
 }
